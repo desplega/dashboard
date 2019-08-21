@@ -17,4 +17,4 @@ RUN npm install && npm ls
 COPY . .
 
 # Start app when the container is created
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "dev" ]
