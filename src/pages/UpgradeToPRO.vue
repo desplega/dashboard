@@ -84,7 +84,9 @@
                   <tr>
                     <td class="text-center"></td>
                     <td class="text-center">
-                      <md-button href="#" class="md-default md-round" disabled>Current Version</md-button>
+                      <md-button href="#" class="md-default md-round" disabled
+                        >Current Version</md-button
+                      >
                     </td>
                   </tr>
                 </tbody>
