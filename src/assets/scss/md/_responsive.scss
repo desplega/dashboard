@@ -443,20 +443,8 @@
         overflow-x: hidden;
     }
 
-    .social-line .btn{
-        margin: $margin-bottom;
-    }
-    .subscribe-line .form-control{
-        margin: $margin-bottom;
-    }
-    .social-line.pull-right{
-        float: none;
-    }
     .footer:not(.footer-big) nav > ul li{
         float: none;
-    }
-    .social-area.pull-right{
-        float: none !important;
     }
     .form-control + .form-control-feedback{
         margin-top: -8px;
@@ -517,6 +505,11 @@
     }
   }
 
+  .login-page.page-header > .container {
+    padding-top: 70px;
+    padding-bottom: 160px;
+  }
+
   .hidden-sm{
     display: none !important;
   }
@@ -561,12 +554,3 @@
 
 }
 
-@media screen and (max-width: 576px) {
-  .tim-typo{
-    padding-left: 11% !important;
-
-    .tim-note{
-      bottom: -25px !important;
-    }
-  }
-}

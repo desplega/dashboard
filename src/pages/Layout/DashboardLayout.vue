@@ -12,6 +12,10 @@
         <md-icon>person</md-icon>
         <p>User Profile</p>
       </sidebar-link>
+      <sidebar-link to="/login">
+        <md-icon>fingerprint</md-icon>
+        <p>Login</p>
+      </sidebar-link>
     </side-bar>
 
     <div class="main-panel">

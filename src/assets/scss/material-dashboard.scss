@@ -12,12 +12,12 @@
 //
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-//variables and mixins
+// Variables and mixins
 @import "md/variables";
 @import "md/mixins";
 @import "md/shadows";
 
-//plugin css
+// Plugin css
 @import "md/plugins/_perfect-scrollbar";
 
 // Core CSS
@@ -34,8 +34,10 @@
 @import "md/togglebutton";
 @import "md/ripples";
 @import "md/pagination";
+@import "md/pages";
 @import "md/pills";
 @import "md/dialogs";
+@import "md/headers";
 @import "md/navbars";
 @import "md/popups";
 @import "md/footers";
@@ -43,6 +45,7 @@
 // Fancy Stuff
 @import "md/dropdown";
 @import "md/cards";
+@import "md/cards/card-login";
 @import "md/tabs";
 @import "md/chartist";
 @import "md/responsive";

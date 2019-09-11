@@ -16,6 +16,17 @@
     }
   }
 
+  &.md-toolbar-absolute{
+    position: absolute;
+    width: 100%;
+    padding-top: 10px;
+    z-index: 1029;
+
+    .md-title{
+      color: $white-color !important;
+    }
+  }
+
   .md-list-item-content {
     padding: 0;
   }
