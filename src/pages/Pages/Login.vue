@@ -14,9 +14,12 @@
         <md-field class="md-form-group" slot="inputs">
           <md-icon>lock_outline</md-icon>
           <label>Password...</label>
-          <md-input v-model="password"></md-input>
+          <md-input type="password" v-model="password"></md-input>
         </md-field>
-        <md-button slot="footer" class="md-simple md-success md-lg"
+        <md-button
+          slot="footer"
+          class="md-simple md-success md-lg"
+          @click="checkUserPassword()"
           >Let's Go!</md-button
         >
       </login-card>
@@ -34,6 +37,24 @@ export default {
       email: null,
       password: null
     };
+  },
+  methods: {
+    checkUserPassword() {
+      if (this.email === "info@desplega.com" && this.password === "desplega") {
+        alert("Ok");
+      } else {
+        let msg = "Email and password don't match...";
+        if (this.emai === null || this.password === null)
+          msg = "Please fill email and password to login...";
+        this.$notify({
+          message: msg,
+          icon: "add_alert",
+          horizontalAlign: "right",
+          verticalAlign: "bottom",
+          type: "danger"
+        });
+      }
+    }
   }
 };
 </script>

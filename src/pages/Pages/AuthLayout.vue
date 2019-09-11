@@ -8,6 +8,7 @@
       </div>
     </md-toolbar>
     <div class="wrapper wrapper-full-page">
+      <notifications></notifications>
       <div
         class="page-header header-filter"
         :class="setPageClass"
@@ -27,7 +28,8 @@
             <div class="copyright text-center">
               &copy; {{ new Date().getFullYear() }}
               <a href="https://www.desplega.com" target="_blank">desplega IoT</a
-              >, made with <i class="fa fa-heart heart"></i>
+              >, made with
+              <i class="fa fa-heart heart"></i>
             </div>
           </div>
         </footer>
