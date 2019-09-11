@@ -17,7 +17,7 @@
           <md-input v-model="password"></md-input>
         </md-field>
         <md-button slot="footer" class="md-simple md-success md-lg"
-          >Lets Go!!</md-button
+          >Let's Go!</md-button
         >
       </login-card>
     </div>
