@@ -19,7 +19,7 @@
         <md-button
           slot="footer"
           class="md-simple md-success md-lg"
-          @click="checkUserPassword()"
+          @click="login()"
           >Let's Go!</md-button
         >
       </login-card>
@@ -34,17 +34,17 @@ export default {
   },
   data() {
     return {
-      email: null,
-      password: null
+      email: "",
+      password: ""
     };
   },
   methods: {
-    checkUserPassword() {
+    login() {
       if (this.email === "info@desplega.com" && this.password === "desplega") {
-        alert("Ok");
+        this.$router.push("/");
       } else {
         let msg = "Email and password don't match...";
-        if (this.emai === null || this.password === null)
+        if (this.email === "" || this.password === "")
           msg = "Please fill email and password to login...";
         this.$notify({
           message: msg,
