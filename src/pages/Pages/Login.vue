@@ -40,7 +40,13 @@ export default {
   },
   methods: {
     login() {
-      if (this.email === "info@desplega.com" && this.password === "desplega") {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
+      /*if (this.email === "info@desplega.com" && this.password === "desplega") {
         this.$router.push("/");
       } else {
         let msg = "Email and password don't match...";
@@ -53,7 +59,7 @@ export default {
           verticalAlign: "bottom",
           type: "danger"
         });
-      }
+      }*/
     }
   }
 };

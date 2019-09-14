@@ -15,11 +15,13 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from "vue";
-import VueRouter from "vue-router";
 import App from "./App";
+import router from "./router";
+import store from "./store";
+import Axios from "axios";
 
-// router setup
-import routes from "./routes/routes";
+// Make API calls available from any component through this.$http
+Vue.prototype.$http = Axios;
 
 // Plugins
 import GlobalComponents from "./globalComponents";
@@ -31,25 +33,28 @@ import MaterialDashboard from "./material-dashboard";
 
 import Chartist from "chartist";
 
-// configure router
-const router = new VueRouter({
-  routes, // short for routes: routes
-  linkExactActiveClass: "nav-item active"
-});
-
 Vue.prototype.$Chartist = Chartist;
 
-Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+
+// Turn off production tip in JS console
+Vue.config.productionTip = false;
+
+// Check for token and globally configure authorization for all future API calls
+const token = localStorage.getItem("user-token");
+if (token) {
+  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+}
 
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
   render: h => h(App),
   router,
+  store,
   data: {
     Chartist: Chartist
   }
