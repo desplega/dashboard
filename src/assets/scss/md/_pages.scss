@@ -1,4 +1,7 @@
 .wrapper{
+    position: relative;
+    top: 0;
+
     &:after{
         display: table;
         clear: both;
@@ -6,8 +9,7 @@
     }
 
     &.wrapper-full-page{
-        height: auto;
-        min-height: 100vh;
+        height: 100vh;
 
         .footer{
           position: absolute;

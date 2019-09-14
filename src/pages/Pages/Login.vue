@@ -9,12 +9,20 @@
         <md-field class="md-form-group" slot="inputs">
           <md-icon>email</md-icon>
           <label>Email...</label>
-          <md-input v-model="email" type="email"></md-input>
+          <md-input
+            v-model="email"
+            type="email"
+            @keyup.enter="login()"
+          ></md-input>
         </md-field>
         <md-field class="md-form-group" slot="inputs">
           <md-icon>lock_outline</md-icon>
           <label>Password...</label>
-          <md-input type="password" v-model="password"></md-input>
+          <md-input
+            type="password"
+            v-model="password"
+            @keyup.enter="login()"
+          ></md-input>
         </md-field>
         <md-button
           slot="footer"
@@ -44,22 +52,24 @@ export default {
       let password = this.password;
       this.$store
         .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch(err => console.log(err));
-      /*if (this.email === "info@desplega.com" && this.password === "desplega") {
-        this.$router.push("/");
-      } else {
-        let msg = "Email and password don't match...";
-        if (this.email === "" || this.password === "")
-          msg = "Please fill email and password to login...";
-        this.$notify({
-          message: msg,
-          icon: "add_alert",
-          horizontalAlign: "right",
-          verticalAlign: "bottom",
-          type: "danger"
+        .then(() => {
+          // Go to dashboard as logged user
+          this.$router.push("/");
+        })
+        .catch(err => {
+          console.log(err);
+          // Show message
+          let msg = "Email and password don't match...";
+          if (email === "" || password === "")
+            msg = "Please fill email and password to login...";
+          this.$notify({
+            message: msg,
+            icon: "add_alert",
+            horizontalAlign: "right",
+            verticalAlign: "bottom",
+            type: "danger"
+          });
         });
-      }*/
     }
   }
 };

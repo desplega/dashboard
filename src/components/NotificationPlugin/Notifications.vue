@@ -46,7 +46,8 @@ export default {
 .list-leave-active {
   transition: opacity 0.4s;
 }
-.list-enter, .list-leave-to  /* .list-leave-active for <2.1.8 */ {
+.list-enter,
+.list-leave-to {
   opacity: 0;
 }
 </style>

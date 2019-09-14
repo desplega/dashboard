@@ -8,13 +8,9 @@
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
-      <sidebar-link to="/user">
-        <md-icon>person</md-icon>
-        <p>User Profile</p>
-      </sidebar-link>
-      <sidebar-link to="/login">
-        <md-icon>fingerprint</md-icon>
-        <p>Login</p>
+      <sidebar-link to="#">
+        <md-icon>add_circle_outline</md-icon>
+        <p>Register device</p>
       </sidebar-link>
     </side-bar>
 
