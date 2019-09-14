@@ -21,14 +21,17 @@ body {
   }
 }
 
-.wrapper{
+html *{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
+.wrapper{
     &.wrapper-full-page{
         height: auto;
         min-height: 100vh;
     }
 }
-
 
 blockquote{
     p{
@@ -48,17 +51,6 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
 
 .serif-font{
     font-family: $font-family-serif;
-}
-
-.page-header {
-    height: 60vh;
-    background-position: center center;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
 }
 
 a{
@@ -134,14 +126,15 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 
 .text-center{
-  text-align: center;
+    justify-content: center;
 }
 .text-left{
-  text-align: left;
+    justify-content: flex-start;
 }
 .text-right{
-  text-align: right;
+    justify-content: flex-end;
 }
+
 .places-buttons{
   .md-button{
     width: 30%;
@@ -152,4 +145,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .md-theme-default :not(input):not(textarea)::selection{
   background-color: #c8c8c8 !important;
+}
+
+.md-toolbar .md-list .md-list-item-content.md-ripple {
+    overflow: hidden;
 }

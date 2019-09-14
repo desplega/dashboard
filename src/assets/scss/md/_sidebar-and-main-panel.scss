@@ -17,6 +17,46 @@
   }
 }
 
+.full-page{
+    .container{
+      width: 100%;
+    }
+    
+    .md-toolbar{
+      .md-list .md-list-item .md-list-item-content{
+        font-weight: 500;
+  
+        &,
+        i{
+          color: #fff !important;
+        }
+  
+        i{
+          margin-right: 3px;
+          max-width: 24px;
+          font-size: 1.25rem !important;
+          margin-left: 0;
+        }
+    }
+  
+    .md-list-item{
+      margin-right: 5px;
+    }
+  
+    .md-list-item .md-list-item-container{
+      &:hover,
+      &:focus{
+        background-color: rgba(199,199,199, .2) !important;
+      }
+
+      &.active{
+        background-color: rgba(199,199,199, .1) !important;
+      }
+    }
+
+  }
+}
+
 .sidebar,
 .off-canvas-sidebar {
     position: fixed;
@@ -213,7 +253,6 @@
         }
 
         .simple-text{
-            text-transform: uppercase;
             padding: $padding-small-vertical $padding-zero;
             display: block;
             font-size: $font-size-large;

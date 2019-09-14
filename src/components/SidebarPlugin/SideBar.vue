@@ -13,7 +13,7 @@
       </a>
 
       <a
-        href="https://www.creative-tim.com/product/vue-material-dashboard"
+        href="https://www.desplega.com"
         target="_blank"
         class="simple-text logo-normal"
       >
@@ -47,7 +47,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "desplega"
+      default: "desplega IoT"
     },
     backgroundImage: {
       type: String,

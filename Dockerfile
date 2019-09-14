@@ -13,8 +13,11 @@ COPY package*.json ./
 # install project dependencies
 RUN npm install && npm ls
 
+# install ESLINT to be used by VSC
+RUN npm install -g eslint
+
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
 # Start app when the container is created
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "dev" ]

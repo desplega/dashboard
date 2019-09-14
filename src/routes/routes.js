@@ -1,62 +1,52 @@
 import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
+import AuthLayout from "@/pages/Pages/AuthLayout.vue";
 
+// Dashboard pages
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
-import TableList from "@/pages/TableList.vue";
-import Typography from "@/pages/Typography.vue";
-import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
-import Notifications from "@/pages/Notifications.vue";
-import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
+
+// Pages
+import Login from "@/pages/Pages/Login.vue";
+
+let authPages = {
+  path: "/",
+  component: AuthLayout,
+  name: "Authentication",
+  children: [
+    {
+      path: "/login",
+      name: "Login",
+      component: Login
+    }
+  ]
+};
 
 const routes = [
   {
     path: "/",
-    component: DashboardLayout,
     redirect: "/dashboard",
+    name: "Home"
+  },
+  authPages,
+  {
+    path: "/",
+    component: DashboardLayout,
     children: [
       {
         path: "dashboard",
         name: "Dashboard",
-        component: Dashboard
+        component: Dashboard,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "user",
         name: "User Profile",
-        component: UserProfile
-      },
-      {
-        path: "table",
-        name: "Table List",
-        component: TableList
-      },
-      {
-        path: "typography",
-        name: "Typography",
-        component: Typography
-      },
-      {
-        path: "icons",
-        name: "Icons",
-        component: Icons
-      },
-      {
-        path: "maps",
-        name: "Maps",
+        component: UserProfile,
         meta: {
-          hideFooter: true
-        },
-        component: Maps
-      },
-      {
-        path: "notifications",
-        name: "Notifications",
-        component: Notifications
-      },
-      {
-        path: "upgrade",
-        name: "Upgrade to PRO",
-        component: UpgradeToPRO
+          requiresAuth: true
+        }
       }
     ]
   }
