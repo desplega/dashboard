@@ -1,12 +1,12 @@
 <template>
   <ul class="nav nav-mobile-menu">
-    <li>
+    <li class="dropdown-item">
       <a href="#/user" class="dropdown-toggle" data-toggle="dropdown">
         <i class="material-icons">person</i>
         <p>User Profile</p>
       </a>
     </li>
-    <li>
+    <li class="dropdown-item">
       <a
         href="#"
         @click="logout"
