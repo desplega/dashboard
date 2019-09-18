@@ -27,6 +27,10 @@ Vue.prototype.$http = Axios;
 import GlobalComponents from "./globalComponents";
 import GlobalDirectives from "./globalDirectives";
 import Notifications from "./components/NotificationPlugin";
+import GlobalConstants from "./globalConstants";
+
+// Make global constants accessible through this.$globals
+Vue.prototype.$globals = GlobalConstants;
 
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
