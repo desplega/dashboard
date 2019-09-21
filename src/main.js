@@ -48,7 +48,16 @@ Vue.use(Notifications);
 Vue.config.productionTip = false;
 
 // Init authentication
-store.dispatch("initAuthentication");
+store
+  .dispatch("initAuthentication")
+  .then(() => {
+    // Token is valid
+  })
+  .catch(err => {
+    // Invalid token
+    console.log(err);
+    router.push("/login");
+  });
 
 /* eslint-disable no-new */
 new Vue({
