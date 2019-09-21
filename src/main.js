@@ -47,11 +47,8 @@ Vue.use(Notifications);
 // Turn off production tip in JS console
 Vue.config.productionTip = false;
 
-// Check for token and globally configure authorization for all future API calls
-const token = localStorage.getItem("user-token");
-if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
-}
+// Init authentication
+store.dispatch("initAuthentication");
 
 /* eslint-disable no-new */
 new Vue({
