@@ -38,8 +38,4 @@ export default {
 };
 </script>
 
-<style lang="css">
-.md-card-not-found .description {
-  font-size: 20px;
-}
-</style>
+<style lang="css"></style>
