@@ -7,6 +7,7 @@ import UserProfile from "@/pages/UserProfile.vue";
 
 // Pages
 import Login from "@/pages/Pages/Login.vue";
+import NotFound from "@/pages/Pages/NotFound.vue";
 
 let authPages = {
   path: "/",
@@ -17,6 +18,11 @@ let authPages = {
       path: "/login",
       name: "Login",
       component: Login
+    },
+    {
+      path: "/404",
+      name: "NotFound",
+      component: NotFound
     }
   ]
 };
@@ -49,6 +55,10 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 
