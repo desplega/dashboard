@@ -7,7 +7,7 @@
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
         <md-table-cell md-label="Status">
-          <md-icon :class="getClass(item)">contactless</md-icon>
+          <md-icon :class="getClass(item)">offline_bolt</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button class="md-just-icon md-simple">
