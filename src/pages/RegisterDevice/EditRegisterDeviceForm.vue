@@ -28,7 +28,8 @@
           </div>
           <div class="md-layout-item md-size-100 text-right">
             <md-button class="md-button md-info">
-              <md-icon>add_circle</md-icon>Create
+              Create
+              <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
           </div>
         </div>
