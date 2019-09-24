@@ -3,7 +3,7 @@
   .md-table-cell:last-child &{
     padding-right: 0;
     text-align: right;
-    display: flex;
+    display: block;
   }
 }
 .md-table-head-container{
@@ -13,13 +13,16 @@
 .md-tabs-content table thead{
   display: none;
 }
+.md-table-head:last-child:not(:first-child) {
+  text-align: right;
+}
 
 .md-tabs-container tbody .md-table-row:first-child td{
   border: 0;
 }
 
 .md-table-cell{
-  padding: 12px 8px;
+  padding: 0 8px;
   font-size: $font-size-base;
 }
 
