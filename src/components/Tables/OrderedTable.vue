@@ -11,10 +11,12 @@
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button class="md-just-icon md-simple">
-            <md-icon>edit</md-icon>
+            <md-icon>view_compact</md-icon>
+            <md-tooltip md-direction="bottom">View device</md-tooltip>
           </md-button>
           <md-button class="md-just-icon md-simple">
             <md-icon>delete</md-icon>
+            <md-tooltip md-direction="bottom">Remove device</md-tooltip>
           </md-button>
         </md-table-cell>
       </md-table-row>

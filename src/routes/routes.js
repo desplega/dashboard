@@ -3,6 +3,7 @@ import AuthLayout from "@/pages/Pages/AuthLayout.vue";
 
 // Dashboard pages
 import Dashboard from "@/pages/Dashboard.vue";
+import RegisterDevice from "@/pages/RegisterDevice.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 
 // Pages
@@ -42,6 +43,14 @@ const routes = [
         path: "dashboard",
         name: "Dashboard",
         component: Dashboard,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "register-device",
+        name: "Register Device",
+        component: RegisterDevice,
         meta: {
           requiresAuth: true
         }
