@@ -9,28 +9,21 @@
         <md-table-cell md-label="Status">
           <md-icon :class="getClass(item)">offline_bolt</md-icon>
         </md-table-cell>
-        <!--<md-table-cell md-label="Actions" class="text-right">
-          <md-button class="md-just-icon md-simple">
-            <md-icon>view_compact</md-icon>
-            <md-tooltip md-direction="bottom">View device</md-tooltip>
-          </md-button>
-          <md-button class="md-just-icon md-simple">
-            <md-icon>delete</md-icon>
-            <md-tooltip md-direction="bottom">Remove device</md-tooltip>
-          </md-button>
-        </md-table-cell>-->
-        <md-table-cell md-label="Actions">
-          <router-link
+        <md-table-cell md-label="Actions" class="text-right">
+          <md-button
             class="md-just-icon md-simple"
-            :to="{ name: 'View Device', params: { id: item.id } }"
+            @click="viewDevice(item.id)"
           >
             <md-icon>view_compact</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
-          </router-link>
-          <router-link class="md-just-icon md-simple" to="/view-device">
+          </md-button>
+          <md-button
+            class="md-just-icon md-simple"
+            @click="deleteDevice(item.id)"
+          >
             <md-icon>delete</md-icon>
             <md-tooltip md-direction="bottom">Remove device</md-tooltip>
-          </router-link>
+          </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
@@ -84,6 +77,12 @@ export default {
   methods: {
     getClass: function(item) {
       return item.status == "ok" ? "status-green" : "status-red";
+    },
+    viewDevice: function(id) {
+      this.$router.push({ name: "View Device", params: { id } });
+    },
+    deleteDevice: function(id) {
+      this.$router.push({ name: "View Device", params: { id } });
     }
   }
 };
