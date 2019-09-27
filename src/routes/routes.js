@@ -57,7 +57,7 @@ const routes = [
         }
       },
       {
-        path: "view-device",
+        path: "view-device/:id",
         name: "View Device",
         component: ViewDevice,
         meta: {

@@ -9,7 +9,7 @@
         <md-table-cell md-label="Status">
           <md-icon :class="getClass(item)">offline_bolt</md-icon>
         </md-table-cell>
-        <md-table-cell md-label="Actions" class="text-right">
+        <!--<md-table-cell md-label="Actions" class="text-right">
           <md-button class="md-just-icon md-simple">
             <md-icon>view_compact</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
@@ -18,6 +18,19 @@
             <md-icon>delete</md-icon>
             <md-tooltip md-direction="bottom">Remove device</md-tooltip>
           </md-button>
+        </md-table-cell>-->
+        <md-table-cell md-label="Actions">
+          <router-link
+            class="md-just-icon md-simple"
+            :to="{ name: 'View Device', params: { id: item.id } }"
+          >
+            <md-icon>view_compact</md-icon>
+            <md-tooltip md-direction="bottom">View device</md-tooltip>
+          </router-link>
+          <router-link class="md-just-icon md-simple" to="/view-device">
+            <md-icon>delete</md-icon>
+            <md-tooltip md-direction="bottom">Remove device</md-tooltip>
+          </router-link>
         </md-table-cell>
       </md-table-row>
     </md-table>
