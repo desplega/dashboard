@@ -2,8 +2,8 @@
   <form>
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Register device</h4>
-        <p class="category">Add your new device information</p>
+        <slot name="title"></slot>
+        <slot name="category"></slot>
       </md-card-header>
 
       <md-card-content>
@@ -27,10 +27,7 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-button md-info">
-              Create
-              <md-icon>keyboard_arrow_right</md-icon>
-            </md-button>
+            <slot name="button"></slot>
           </div>
         </div>
       </md-card-content>

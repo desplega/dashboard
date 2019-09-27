@@ -11,7 +11,7 @@
 
     <template slot="footer">
       <div class="stats"><md-icon>update</md-icon>Just updated</div>
-      <div>ID: {{ $route.params.id }}</div>
+      <p>ID: {{ $route.params.id }}</p>
     </template>
   </stats-card>
 </template>

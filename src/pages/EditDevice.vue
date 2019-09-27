@@ -2,11 +2,11 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-size-100">
-        <edit-register-device-form data-background-color="blue">
-          <h4 slot="title">Register Device</h4>
-          <p slot="category">Add your new device information</p>
-          <md-button slot="button" class="md-button md-info">
-            Create
+        <edit-register-device-form data-background-color="purple">
+          <h4 slot="title">Edit Device</h4>
+          <p slot="category">Edit your device information</p>
+          <md-button slot="button" class="md-button md-primary">
+            Save
             <md-icon>keyboard_arrow_right</md-icon>
           </md-button>
         </edit-register-device-form>

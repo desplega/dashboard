@@ -6,6 +6,7 @@ import Dashboard from "@/pages/Dashboard.vue";
 import RegisterDevice from "@/pages/RegisterDevice.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import ViewDevice from "@/pages/ViewDevice.vue";
+import EditDevice from "@/pages/EditDevice.vue";
 
 // Pages
 import Login from "@/pages/Pages/Login.vue";
@@ -60,6 +61,14 @@ const routes = [
         path: "view-device/:id",
         name: "View Device",
         component: ViewDevice,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "edit-device/:id",
+        name: "Edit Device",
+        component: EditDevice,
         meta: {
           requiresAuth: true
         }

@@ -88,6 +88,9 @@ export default {
     viewDevice: function(id) {
       this.$router.push({ name: "View Device", params: { id } });
     },
+    editDevice: function(id) {
+      this.$router.push({ name: "Edit Device", params: { id } });
+    },
     deleteDevice: function(id) {
       this.$router.push({ name: "View Device", params: { id } });
     }

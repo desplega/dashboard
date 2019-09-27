@@ -12,10 +12,6 @@
         <md-icon>add_circle_outline</md-icon>
         <p>Register device</p>
       </sidebar-link>
-      <sidebar-link to="/view-device">
-        <md-icon>watch</md-icon>
-        <p>View Device</p>
-      </sidebar-link>
     </side-bar>
 
     <div class="main-panel">
