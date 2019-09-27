@@ -14,8 +14,15 @@
             class="md-just-icon md-simple"
             @click="viewDevice(item.id)"
           >
-            <md-icon>view_compact</md-icon>
+            <md-icon>art_track</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
+          </md-button>
+          <md-button
+            class="md-just-icon md-simple"
+            @click="editDevice(item.id)"
+          >
+            <md-icon>edit</md-icon>
+            <md-tooltip md-direction="bottom">Edit device</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
