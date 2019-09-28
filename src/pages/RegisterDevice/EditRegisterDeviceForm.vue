@@ -27,7 +27,14 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <slot name="button"></slot>
+            <md-button
+              slot="button"
+              class="md-button md-primary"
+              @click="saveDevice"
+            >
+              Save
+              <md-icon>keyboard_arrow_right</md-icon>
+            </md-button>
           </div>
         </div>
       </md-card-content>
@@ -35,6 +42,7 @@
   </form>
 </template>
 <script>
+import deviceService from "@/services/deviceService.js";
 export default {
   name: "edit-register-device-form",
   props: {
@@ -49,6 +57,13 @@ export default {
       id: null,
       location: null
     };
+  },
+  methods: {
+    saveDevice: function() {
+      let device = { name: this.name, macAddress: this.id };
+      deviceService.saveDevice(device);
+      this.$router.push("/dashboard");
+    }
   }
 };
 </script>

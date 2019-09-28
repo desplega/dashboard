@@ -7,10 +7,6 @@
           <p slot="category" class="category">
             Add your new device information
           </p>
-          <md-button slot="button" class="md-button md-info">
-            Create
-            <md-icon>keyboard_arrow_right</md-icon>
-          </md-button>
         </edit-register-device-form>
       </div>
     </div>
