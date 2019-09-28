@@ -1,3 +1,6 @@
+// Modals
+import Modal from "./Modal.vue";
+
 // Tables
 import OrderedTable from "./Tables/OrderedTable.vue";
 
@@ -7,4 +10,4 @@ import NotFoundCard from "./Cards/NotFoundCard.vue";
 import StatsCard from "./Cards/StatsCard.vue";
 import ChartCard from "./Cards/ChartCard.vue";
 
-export { OrderedTable, LoginCard, NotFoundCard, StatsCard, ChartCard };
+export { OrderedTable, LoginCard, NotFoundCard, StatsCard, ChartCard, Modal };

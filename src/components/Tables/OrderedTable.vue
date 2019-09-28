@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table v-model="users" :table-header-color="tableHeaderColor">
+    <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="ID">{{ item.id }}</md-table-cell>
@@ -24,21 +24,49 @@
             <md-icon>edit</md-icon>
             <md-tooltip md-direction="bottom">Edit device</md-tooltip>
           </md-button>
-          <md-button
-            class="md-just-icon md-simple"
-            @click="deleteDevice(item.id)"
-          >
+          <md-button class="md-just-icon md-simple" @click="deleteDevice(item)">
             <md-icon>delete</md-icon>
             <md-tooltip md-direction="bottom">Remove device</md-tooltip>
           </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <div class="small-alert-modal">
+      <modal v-if="alertModal" @close="alertModalHide">
+        <template slot="header">
+          <md-button
+            class="md-simple md-just-icon md-round modal-default-button"
+            @click="alertModalHide"
+          >
+            <md-icon>clear</md-icon>
+          </md-button>
+        </template>
+
+        <template slot="body">
+          <p>
+            Are you sure you want to delete the {{ this.device.id }} device?
+          </p>
+        </template>
+
+        <template slot="footer">
+          <md-button class="md-simple" @click="alertModalHide"
+            >Cancel</md-button
+          >
+          <md-button class="md-success md-simple" @click="confirmDeleteDevice"
+            >Delete</md-button
+          >
+        </template>
+      </modal>
+    </div>
   </div>
 </template>
 
 <script>
+import { Modal } from "@/components";
 export default {
+  components: {
+    Modal
+  },
   name: "ordered-table",
   props: {
     tableHeaderColor: {
@@ -49,7 +77,7 @@ export default {
   data() {
     return {
       selected: [],
-      users: [
+      devices: [
         {
           id: 190915080614,
           name: "Rusc 1",
@@ -78,7 +106,9 @@ export default {
           updated: "24/09/2019 09:12:24",
           status: "ok"
         }
-      ]
+      ],
+      alertModal: false,
+      device: null
     };
   },
   methods: {
@@ -91,8 +121,22 @@ export default {
     editDevice: function(id) {
       this.$router.push({ name: "Edit Device", params: { id } });
     },
-    deleteDevice: function(id) {
-      this.$router.push({ name: "View Device", params: { id } });
+    deleteDevice: function(item) {
+      this.alertModal = true;
+      this.device = item;
+    },
+    confirmDeleteDevice: function() {
+      this.alertModal = false;
+      //TODO: add functionality to delete/unregister the device
+      for (var i = 0; i < this.devices.length; i++) {
+        if (this.devices[i].id === this.device.id) {
+          this.devices.splice(i, 1);
+          break;
+        }
+      }
+    },
+    alertModalHide: function() {
+      this.alertModal = false;
     }
   }
 };
