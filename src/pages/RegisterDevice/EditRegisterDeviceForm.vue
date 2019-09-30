@@ -42,7 +42,7 @@
   </form>
 </template>
 <script>
-import deviceService from "@/services/deviceService.js";
+import DeviceService from "@/services/DeviceService.js";
 export default {
   name: "edit-register-device-form",
   props: {
@@ -61,7 +61,7 @@ export default {
   methods: {
     saveDevice: function() {
       let device = { name: this.name, macAddress: this.id };
-      deviceService.saveDevice(device);
+      DeviceService.saveDevice(device);
       this.$router.push("/dashboard");
     }
   }

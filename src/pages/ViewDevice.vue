@@ -22,6 +22,8 @@ import { ViewTemperature } from "@/pages";
 import { ViewMeshStatus } from "@/pages";
 import { ToggleLed } from "@/pages";
 import { ViewChart } from "@/pages";
+import DataService from "@/services/DataService.js";
+import { SocketService } from "@/services/SocketService.js";
 
 export default {
   components: {
@@ -29,6 +31,21 @@ export default {
     ViewMeshStatus,
     ToggleLed,
     ViewChart
+  },
+  data() {
+    return {
+      socket: null
+    };
+  },
+  created() {
+    console.log("Socket init...");
+    DataService.get(this.$route.params.id).then(data => {
+      console.log("Data received by API call...");
+      console.log(data);
+    });
+    this.socket = new SocketService();
+    console.log("Socket subscription to: " + this.$route.params.id);
+    this.socket.getData(this.$route.params.id);
   }
 };
 </script>
