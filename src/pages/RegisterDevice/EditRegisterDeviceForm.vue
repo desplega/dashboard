@@ -39,6 +39,7 @@
 </template>
 <script>
 import DeviceService from "@/services/DeviceService.js";
+
 export default {
   name: "edit-register-device-form",
   props: {

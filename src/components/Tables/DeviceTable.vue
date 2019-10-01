@@ -7,7 +7,7 @@
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
         <md-table-cell md-label="Status">
-          <md-icon :class="getClass(item)">offline_bolt</md-icon>
+          <md-icon :class="getClass(item.status)">offline_bolt</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
@@ -63,6 +63,8 @@
 
 <script>
 import { Modal } from "@/components";
+import DeviceService from "@/services/DeviceService.js";
+
 export default {
   components: {
     Modal
@@ -77,43 +79,14 @@ export default {
   data() {
     return {
       selected: [],
-      devices: [
-        {
-          id: 190915080614,
-          name: "Rusc 1",
-          location: "Olot bosc",
-          updated: "24/09/2019 09:12:24",
-          status: "ok"
-        },
-        {
-          id: 190915080733,
-          name: "Rusc 2",
-          location: "Olot bosc",
-          updated: "24/09/2019 09:12:24",
-          status: "ok"
-        },
-        {
-          id: 190915080848,
-          name: "Rusc 3",
-          location: "Olot esplanada",
-          updated: "24/09/2019 09:12:24",
-          status: "fail"
-        },
-        {
-          id: 190915080621,
-          name: "Rusc nou",
-          location: "Olot esplanada",
-          updated: "24/09/2019 09:12:24",
-          status: "ok"
-        }
-      ],
+      devices: [],
       alertModal: false,
       device: null
     };
   },
   methods: {
-    getClass: function(item) {
-      return item.status == "ok" ? "status-green" : "status-red";
+    getClass: function(status) {
+      return status == "ok" ? "status-green" : "status-red";
     },
     viewDevice: function(id) {
       this.$router.push({ name: "View Device", params: { id } });
@@ -138,6 +111,21 @@ export default {
     alertModalHide: function() {
       this.alertModal = false;
     }
+  },
+  created() {
+    DeviceService.get().then(response => {
+      this.devices = [];
+      for (var i = 0, len = response.data.length; i < len; i++) {
+        let device = {};
+        device.id = response.data[i].macAddress;
+        device.name = response.data[i].name;
+        device.location = "Not specified";
+        let date = response.data[i].updatedAt;
+        device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
+        device.status = "ok"; // Otherwise "fail"
+        this.devices.push(device);
+      }
+    });
   }
 };
 </script>
