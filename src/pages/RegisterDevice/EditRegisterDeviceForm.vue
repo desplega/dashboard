@@ -27,11 +27,7 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button
-              slot="button"
-              class="md-button md-primary"
-              @click="saveDevice"
-            >
+            <md-button class="md-button md-info" @click="saveDevice">
               Save
               <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
