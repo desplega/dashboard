@@ -67,7 +67,7 @@ export default {
   components: {
     Modal
   },
-  name: "ordered-table",
+  name: "device-table",
   props: {
     tableHeaderColor: {
       type: String,

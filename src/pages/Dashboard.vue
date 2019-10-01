@@ -8,7 +8,7 @@
             <p class="category">List of available connected devices</p>
           </md-card-header>
           <md-card-content>
-            <ordered-table table-header-color="orange"></ordered-table>
+            <device-table table-header-color="orange"></device-table>
           </md-card-content>
         </md-card>
       </div>
@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import { OrderedTable } from "@/components";
+import { DeviceTable } from "@/components";
 
 export default {
   components: {
-    OrderedTable
+    DeviceTable
   },
   data() {
     return {};
