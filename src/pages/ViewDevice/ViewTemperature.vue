@@ -6,7 +6,7 @@
 
     <template slot="content">
       <p class="category">Temperature</p>
-      <h3 class="title">24,24 C</h3>
+      <h3 class="title">{{ temperature }} C</h3>
     </template>
 
     <template slot="footer">
@@ -17,6 +17,8 @@
 
 <script>
 import { StatsCard } from "@/components";
+import DataService from "@/services/DataService.js";
+
 export default {
   components: {
     StatsCard
@@ -33,6 +35,12 @@ export default {
       temperature: null,
       updated: null
     };
+  },
+  created() {
+    DataService.get(this.$route.params.id).then(response => {
+      this.temperature = response.data[0].data.t; // In first position the most recent
+      console.log(response.data[0].data.t);
+    });
   }
 };
 </script>

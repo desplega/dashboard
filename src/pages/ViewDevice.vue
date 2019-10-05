@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <span style="margin: 15px">Device ID: {{ $route.params.id }}</span>
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-33">
         <view-mesh-status data-background-color="green"></view-mesh-status>
