@@ -98,6 +98,7 @@
 <script>
 import { StatsCard } from "@/components";
 import { ChartCard } from "@/components";
+import DeviceService from "@/services/DeviceService.js";
 import DataService from "@/services/DataService.js";
 import { SocketService } from "@/services/SocketService.js";
 
@@ -110,6 +111,7 @@ export default {
     return {
       // Device info
       device: {
+        id: null,
         macAddress: null,
         name: "Test device",
         location: "Lannister's forest"
@@ -161,31 +163,32 @@ export default {
   },
   created() {
     // Get device data from ID
-    this.device.macAddress = this.$route.params.macAddress;
+    DeviceService.getDevice(this.$route.params.id).then(response => {
+      this.device = response.data;
 
-    // Mesh status
-    DataService.get(this.device.macAddress).then(response => {
-      //this.status = response.data[0].data.status;
-      //TENTATIVE: Use temperature to test both connected and disconnected messages
-      this.status = response.data[0].data.t > 20 ? "Connected" : "Diconnected";
-      console.log(this.status);
-    });
+      // Get data
+      DataService.get(this.device.macAddress).then(response => {
+        // Mesh status
+        //this.status = response.data[0].data.status;
+        //TENTATIVE: Use temperature to test both connected and disconnected messages
+        this.status =
+          response.data[0].data.t > 20 ? "Connected" : "Disconnected";
+        console.log(this.status);
+        // Temperature
+        this.temperature = response.data[0].data.t; // In first position the most recent
+        console.log(response.data[0].data.t);
+      });
 
-    // Temperature
-    DataService.get(this.device.macAddress).then(response => {
-      this.temperature = response.data[0].data.t; // In first position the most recent
-      console.log(response.data[0].data.t);
+      // Socket to update device data from api-engine
+      console.log("Socket init...");
+      DataService.get(this.device.macAddress).then(data => {
+        console.log("Data received by API call...");
+        console.log(data);
+      });
+      this.socket = new SocketService();
+      console.log("Socket subscription to: " + this.device.macAddress);
+      this.socket.getData(this.device.macAddress);
     });
-
-    // Socket to update device data from api-engine
-    console.log("Socket init...");
-    DataService.get(this.device.macAddress).then(data => {
-      console.log("Data received by API call...");
-      console.log(data);
-    });
-    this.socket = new SocketService();
-    console.log("Socket subscription to: " + this.device.macAddress);
-    this.socket.getData(this.device.macAddress);
   }
 };
 </script>

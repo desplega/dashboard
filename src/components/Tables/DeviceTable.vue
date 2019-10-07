@@ -14,14 +14,14 @@
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
             class="md-just-icon md-simple"
-            @click="viewDevice(item.macAddress)"
+            @click="viewDevice(item.id)"
           >
             <md-icon>art_track</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
-            @click="editDevice(item.macAddress)"
+            @click="editDevice(item.id)"
           >
             <md-icon>edit</md-icon>
             <md-tooltip md-direction="bottom">Edit device</md-tooltip>
@@ -92,18 +92,18 @@ export default {
     getClass: function(status) {
       return status == "ok" ? "status-green" : "status-red";
     },
-    viewDevice: function(macAddress) {
-      this.$router.push({ name: "View Device", params: { macAddress } });
+    viewDevice: function(id) {
+      this.$router.push({ name: "View Device", params: { id } });
     },
-    editDevice: function(macAddress) {
-      this.$router.push({ name: "Edit Device", params: { macAddress } });
+    editDevice: function(id) {
+      this.$router.push({ name: "Edit Device", params: { id } });
     },
     deleteDevice: function(item) {
       this.alertModal = true;
       this.device = item;
     },
     confirmDeleteDevice: function() {
-      this.$emit("deleteDevice", this.device.macAddress);
+      this.$emit("deleteDevice", this.device.id);
       this.alertModal = false;
     },
     alertModalHide: function() {

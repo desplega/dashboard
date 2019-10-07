@@ -38,6 +38,7 @@ export default {
       this.devices = [];
       for (var i = 0, len = response.data.length; i < len; i++) {
         let device = {};
+        device.id = response.data[i]._id; // Database internal id
         device.macAddress = response.data[i].macAddress;
         device.name = response.data[i].name;
         device.location = "Not specified";
@@ -49,10 +50,10 @@ export default {
     });
   },
   methods: {
-    deleteDevice: function(macAddress) {
+    deleteDevice: function(id) {
       //TODO: add functionality to delete/unregister the device
       for (var i = 0; i < this.devices.length; i++) {
-        if (this.devices[i].macAddress === macAddress) {
+        if (this.devices[i].id === id) {
           this.devices.splice(i, 1);
           break;
         }
