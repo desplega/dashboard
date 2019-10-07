@@ -1,9 +1,27 @@
 <template>
   <div class="content">
-    <span style="margin: 15px">Device ID: {{ $route.params.id }}</span>
     <div class="md-layout">
+      <div class="md-layout-item md-medium-size-100 md-size-100">
+        <md-card>
+          <md-card-header data-background-color="green">
+            <h4 class="title">Device macAddress: {{ device.macAddress }}</h4>
+            <p class="category">Information on the device</p>
+          </md-card-header>
+          <md-card-content>
+            <p>
+              <span class="card-title">Name:</span>
+              {{ device.name }}
+            </p>
+            <p>
+              <span class="card-title">Location:</span>
+              {{ device.location }}
+            </p>
+          </md-card-content>
+        </md-card>
+      </div>
+
       <div class="md-layout-item md-medium-size-100 md-size-33">
-        <stats-card data-background-color="green">
+        <stats-card data-background-color="purple">
           <template slot="header">
             <md-icon>border_clear</md-icon>
           </template>
@@ -16,6 +34,7 @@
           </template>
         </stats-card>
       </div>
+
       <div class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="orange">
           <template slot="header">
@@ -30,8 +49,9 @@
           </template>
         </stats-card>
       </div>
+
       <div class="md-layout-item md-medium-size-100 md-size-33">
-        <stats-card data-background-color="purple">
+        <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>highlight</md-icon>
           </template>
@@ -48,6 +68,7 @@
           </template>
         </stats-card>
       </div>
+
       <div class="md-layout-item md-size-100">
         <chart-card
           header-animation="false"
@@ -87,6 +108,12 @@ export default {
   },
   data() {
     return {
+      // Device info
+      device: {
+        macAddress: null,
+        name: "Test device",
+        location: "Lannister's forest"
+      },
       // View mesh status
       status: "Connected",
       // View temperature
@@ -133,29 +160,37 @@ export default {
     };
   },
   created() {
+    // Get device data from ID
+    this.device.macAddress = this.$route.params.macAddress;
+
     // Mesh status
-    DataService.get(this.$route.params.id).then(response => {
+    DataService.get(this.device.macAddress).then(response => {
       //this.status = response.data[0].data.status;
       //TENTATIVE: Use temperature to test both connected and disconnected messages
       this.status = response.data[0].data.t > 20 ? "Connected" : "Diconnected";
-      console.log(response.data[0].data.t);
+      console.log(this.status);
     });
 
     // Temperature
-    DataService.get(this.$route.params.id).then(response => {
+    DataService.get(this.device.macAddress).then(response => {
       this.temperature = response.data[0].data.t; // In first position the most recent
       console.log(response.data[0].data.t);
     });
 
     // Socket to update device data from api-engine
     console.log("Socket init...");
-    DataService.get(this.$route.params.id).then(data => {
+    DataService.get(this.device.macAddress).then(data => {
       console.log("Data received by API call...");
       console.log(data);
     });
     this.socket = new SocketService();
-    console.log("Socket subscription to: " + this.$route.params.id);
-    this.socket.getData(this.$route.params.id);
+    console.log("Socket subscription to: " + this.device.macAddress);
+    this.socket.getData(this.device.macAddress);
   }
 };
 </script>
+<style>
+.card-title {
+  margin-left: 15px;
+}
+</style>

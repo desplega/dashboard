@@ -58,7 +58,7 @@ const routes = [
         }
       },
       {
-        path: "view-device/:id",
+        path: "view-device/:macAddress",
         name: "View Device",
         component: ViewDevice,
         meta: {
@@ -66,7 +66,7 @@ const routes = [
         }
       },
       {
-        path: "edit-device/:id",
+        path: "edit-device/:macAddress",
         name: "Edit Device",
         component: EditDevice,
         meta: {

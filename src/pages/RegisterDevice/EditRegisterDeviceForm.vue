@@ -16,8 +16,8 @@
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field maxlength="12">
-              <label>ID</label>
-              <md-input v-model="id" type="text"></md-input>
+              <label>macAddress</label>
+              <md-input v-model="macAddress" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-size-100">
@@ -50,14 +50,14 @@ export default {
   },
   data() {
     return {
+      macAddress: null,
       name: null,
-      id: null,
       location: null
     };
   },
   methods: {
     saveDevice: function() {
-      let device = { name: this.name, macAddress: this.id };
+      let device = { name: this.name, macAddress: this.macAddress };
       DeviceService.saveDevice(device);
       this.$router.push("/dashboard");
     }

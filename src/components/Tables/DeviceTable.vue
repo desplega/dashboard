@@ -3,7 +3,9 @@
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="ID">{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="macAddress">{{
+          item.macAddress
+        }}</md-table-cell>
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
         <md-table-cell md-label="Status">
@@ -12,14 +14,14 @@
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
             class="md-just-icon md-simple"
-            @click="viewDevice(item.id)"
+            @click="viewDevice(item.macAddress)"
           >
             <md-icon>art_track</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
-            @click="editDevice(item.id)"
+            @click="editDevice(item.macAddress)"
           >
             <md-icon>edit</md-icon>
             <md-tooltip md-direction="bottom">Edit device</md-tooltip>
@@ -44,7 +46,8 @@
 
         <template slot="body">
           <p>
-            Are you sure you want to delete the {{ this.device.id }} device?
+            Are you sure you want to delete the
+            {{ this.device.macAddress }} device?
           </p>
         </template>
 
@@ -63,7 +66,6 @@
 
 <script>
 import { Modal } from "@/components";
-import DeviceService from "@/services/DeviceService.js";
 
 export default {
   components: {
@@ -74,12 +76,14 @@ export default {
     tableHeaderColor: {
       type: String,
       default: ""
+    },
+    devices: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      selected: [],
-      devices: [],
       alertModal: false,
       device: null
     };
@@ -88,44 +92,23 @@ export default {
     getClass: function(status) {
       return status == "ok" ? "status-green" : "status-red";
     },
-    viewDevice: function(id) {
-      this.$router.push({ name: "View Device", params: { id } });
+    viewDevice: function(macAddress) {
+      this.$router.push({ name: "View Device", params: { macAddress } });
     },
-    editDevice: function(id) {
-      this.$router.push({ name: "Edit Device", params: { id } });
+    editDevice: function(macAddress) {
+      this.$router.push({ name: "Edit Device", params: { macAddress } });
     },
     deleteDevice: function(item) {
       this.alertModal = true;
       this.device = item;
     },
     confirmDeleteDevice: function() {
+      this.$emit("deleteDevice", this.device.macAddress);
       this.alertModal = false;
-      //TODO: add functionality to delete/unregister the device
-      for (var i = 0; i < this.devices.length; i++) {
-        if (this.devices[i].id === this.device.id) {
-          this.devices.splice(i, 1);
-          break;
-        }
-      }
     },
     alertModalHide: function() {
       this.alertModal = false;
     }
-  },
-  created() {
-    DeviceService.get().then(response => {
-      this.devices = [];
-      for (var i = 0, len = response.data.length; i < len; i++) {
-        let device = {};
-        device.id = response.data[i].macAddress;
-        device.name = response.data[i].name;
-        device.location = "Not specified";
-        let date = response.data[i].updatedAt;
-        device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
-        device.status = "ok"; // Otherwise "fail"
-        this.devices.push(device);
-      }
-    });
   }
 };
 </script>
