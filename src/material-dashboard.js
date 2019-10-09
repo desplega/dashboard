@@ -1,5 +1,7 @@
 // Sidebar on the right. Used as a local plugin in DashboardLayout.vue
 import SideBar from "./components/SidebarPlugin";
+// Validation plugin used to validate forms
+import VeeValidate from "vee-validate";
 
 // asset imports
 import VueMaterial from "vue-material";
@@ -16,5 +18,6 @@ export default {
   install(Vue) {
     Vue.use(SideBar);
     Vue.use(VueMaterial);
+    Vue.use(VeeValidate, { fieldsBagName: "veeFields" });
   }
 };
