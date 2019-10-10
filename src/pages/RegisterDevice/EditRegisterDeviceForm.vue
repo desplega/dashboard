@@ -52,7 +52,6 @@
                 type="number"
                 v-validate="modelValidations.macAddress"
                 required
-                disabled
               ></md-input>
               <slide-y-down-transition>
                 <md-icon class="error" v-show="errors.has('macAddress')"
@@ -104,7 +103,7 @@
       <md-card-actions class="text-right">
         <md-button
           native-type="submit"
-          @click.native.prevent="saveDevice"
+          @click.native.prevent="validate"
           class="md-info"
         >
           Save
@@ -116,7 +115,6 @@
 </template>
 <script>
 import { SlideYDownTransition } from "vue2-transitions";
-//import DeviceService from "@/services/DeviceService.js";
 
 export default {
   name: "edit-register-device-form",
@@ -133,7 +131,7 @@ export default {
     return {
       // Device
       name: "",
-      macAddress: null,
+      macAddress: "",
       location: "",
       // Form validation
       touched: {
@@ -158,16 +156,16 @@ export default {
     };
   },
   methods: {
-    saveDevice() {
+    validate() {
       this.$validator.validateAll().then(isValid => {
         if (isValid) {
-          console.log("Valid");
           // Check not empty fields
-          //let device = { name: this.name, macAddress: this.macAddress };
-          //DeviceService.saveDevice(device);
-          //this.$router.push("/dashboard");
-        } else {
-          console.log("Invalid");
+          let device = {
+            name: this.name,
+            macAddress: this.macAddress,
+            location: this.location
+          };
+          this.$emit("saveDevice", device);
         }
       });
     }
