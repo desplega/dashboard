@@ -52,6 +52,7 @@
                 type="number"
                 v-validate="modelValidations.macAddress"
                 required
+                :disabled="disable"
               ></md-input>
               <slide-y-down-transition>
                 <md-icon class="error" v-show="errors.has('macAddress')"
@@ -125,6 +126,10 @@ export default {
     dataBackgroundColor: {
       type: String,
       default: ""
+    },
+    disable: {
+      type: String,
+      default: "false"
     }
   },
   data() {
