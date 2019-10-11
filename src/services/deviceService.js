@@ -8,9 +8,9 @@ export default {
       method: "GET"
     });
   },
-  getDevice(device) {
+  getDevice(deviceID) {
     return axios({
-      url: GlobalConstants.BASE_API_URL + "api/v1/devices/" + device,
+      url: GlobalConstants.BASE_API_URL + "api/v1/devices/" + deviceID,
       method: "GET"
     });
   },
@@ -21,9 +21,16 @@ export default {
       method: "POST"
     });
   },
-  deleteDevice(device) {
+  updateDevice(deviceID, device) {
     return axios({
-      url: GlobalConstants.BASE_API_URL + "api/v1/devices/" + device,
+      url: GlobalConstants.BASE_API_URL + "api/v1/devices/" + deviceID,
+      data: device,
+      method: "PUT"
+    });
+  },
+  deleteDevice(deviceID) {
+    return axios({
+      url: GlobalConstants.BASE_API_URL + "api/v1/devices/" + deviceID,
       method: "DELETE"
     });
   }

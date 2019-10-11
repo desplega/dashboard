@@ -42,7 +42,12 @@
             <md-field
               :class="[
                 { 'md-error': errors.has('macAddress') },
-                { 'md-valid': !errors.has('macAddress') && touched.macAddress }
+                {
+                  'md-valid':
+                    !errors.has('macAddress') &&
+                    touched.macAddress &&
+                    !disableMacAddress
+                }
               ]"
             >
               <label>macAddress</label>
@@ -52,7 +57,7 @@
                 type="number"
                 v-validate="modelValidations.macAddress"
                 required
-                :disabled="disable"
+                :disabled="disableMacAddress"
               ></md-input>
               <slide-y-down-transition>
                 <md-icon class="error" v-show="errors.has('macAddress')"
@@ -62,7 +67,11 @@
               <slide-y-down-transition>
                 <md-icon
                   class="success"
-                  v-show="!errors.has('macAddress') && touched.macAddress"
+                  v-show="
+                    !errors.has('macAddress') &&
+                      touched.macAddress &&
+                      !disableMacAddress
+                  "
                   >done</md-icon
                 >
               </slide-y-down-transition>
@@ -127,9 +136,19 @@ export default {
       type: String,
       default: ""
     },
-    disable: {
-      type: String,
-      default: "false"
+    disableMacAddress: {
+      type: Boolean,
+      default: false
+    },
+    device: {
+      type: Object,
+      default: () => {
+        return {
+          name: "",
+          macAddress: "", // Used to detect if component is called from Register or Edit
+          location: ""
+        };
+      }
     }
   },
   data() {
@@ -159,6 +178,13 @@ export default {
         }
       }
     };
+  },
+  created() {
+    if (this.device.macAddress != "") {
+      this.name = this.device.name;
+      this.macAddress = this.device.macAddress;
+      this.location = this.device.location;
+    }
   },
   methods: {
     validate() {
@@ -195,5 +221,10 @@ export default {
 
 .text-center {
   justify-content: center !important;
+}
+
+input[type="number"]:disabled {
+  color: rgba(0, 0, 0, 0.42) !important;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.42) !important;
 }
 </style>
