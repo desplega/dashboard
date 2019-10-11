@@ -39,7 +39,7 @@ export default {
         if (this.findDeviceInList(device, devices.data)) {
           // The device is already added in the device list
           this.$notify({
-            message: "This device is already added in your device list",
+            message: "This device is already registered",
             icon: "add_alert",
             horizontalAlign: "right",
             verticalAlign: "bottom",

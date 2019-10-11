@@ -16,11 +16,14 @@
               <span class="card-title">Location:</span>
               {{ device.location }}
             </p>
+            <p v-if="!hasData" class="no-data">
+              <span>No data yet!</span>
+            </p>
           </md-card-content>
         </md-card>
       </div>
 
-      <div class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="purple">
           <template slot="header">
             <md-icon>border_clear</md-icon>
@@ -35,7 +38,7 @@
         </stats-card>
       </div>
 
-      <div class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>wb_sunny</md-icon>
@@ -50,7 +53,7 @@
         </stats-card>
       </div>
 
-      <div class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>highlight</md-icon>
@@ -69,7 +72,7 @@
         </stats-card>
       </div>
 
-      <div class="md-layout-item md-size-100">
+      <div v-if="hasData" class="md-layout-item md-size-100">
         <chart-card
           header-animation="false"
           :chart-data="colouredLineChart.data"
@@ -109,6 +112,8 @@ export default {
   },
   data() {
     return {
+      // Data flag
+      hasData: false,
       // Device info
       device: {
         id: null,
@@ -161,33 +166,35 @@ export default {
       socket: null
     };
   },
-  created() {
-    // Get device data from ID
+  beforeCreate() {
+    // Get device data from ID in the URL
     DeviceService.getDevice(this.$route.params.id).then(response => {
       this.device = response.data;
 
       // Get data
       DataService.get(this.device.macAddress).then(response => {
-        // Mesh status
-        //this.status = response.data[0].data.status;
-        //TENTATIVE: Use temperature to test both connected and disconnected messages
-        this.status =
-          response.data[0].data.t > 20 ? "Connected" : "Disconnected";
-        console.log(this.status);
-        // Temperature
-        this.temperature = response.data[0].data.t; // In first position the most recent
-        console.log(response.data[0].data.t);
+        if (response.data.length > 0) {
+          this.hasData = true;
+          // Mesh status
+          //this.status = response.data[0].data.status;
+          //TENTATIVE: Use temperature to test both connected and disconnected messages
+          this.status =
+            response.data[0].data.t > 20 ? "Connected" : "Disconnected";
+          console.log(this.status);
+          // Temperature
+          this.temperature = response.data[0].data.t; // In first position the most recent
+          console.log(response.data[0].data.t);
+          // Socket to update device data from api-engine
+          console.log("Socket init...");
+          DataService.get(this.device.macAddress).then(data => {
+            console.log("Data received by API call...");
+            console.log(data);
+          });
+          this.socket = new SocketService();
+          console.log("Socket subscription to: " + this.device.macAddress);
+          this.socket.getData(this.device.macAddress);
+        }
       });
-
-      // Socket to update device data from api-engine
-      console.log("Socket init...");
-      DataService.get(this.device.macAddress).then(data => {
-        console.log("Data received by API call...");
-        console.log(data);
-      });
-      this.socket = new SocketService();
-      console.log("Socket subscription to: " + this.device.macAddress);
-      this.socket.getData(this.device.macAddress);
     });
   }
 };
@@ -195,5 +202,10 @@ export default {
 <style>
 .card-title {
   margin-left: 15px;
+}
+
+.no-data {
+  text-align: center;
+  font-size: large;
 }
 </style>

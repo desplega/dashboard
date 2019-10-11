@@ -110,7 +110,7 @@
         </div>
       </md-card-content>
 
-      <md-card-actions class="text-right">
+      <md-card-actions class="text-center">
         <md-button
           native-type="submit"
           @click.native.prevent="validate"

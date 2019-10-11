@@ -100,7 +100,7 @@ export default {
     },
     deleteDevice: function(item) {
       this.alertModal = true;
-      this.device = item;
+      this.device = item; // To show the user the ID of the device to be deleted
     },
     confirmDeleteDevice: function() {
       this.$emit("deleteDevice", this.device.id);

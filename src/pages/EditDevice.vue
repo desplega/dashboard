@@ -33,7 +33,7 @@ export default {
     };
   },
   created() {
-    // Get device data from ID
+    // Get device data from ID from the URL
     DeviceService.getDevice(this.$route.params.id).then(response => {
       this.device = response.data;
       this.deviceDataLoaded = true;

@@ -51,10 +51,22 @@ export default {
   },
   methods: {
     deleteDevice: function(id) {
-      //TODO: add functionality to delete/unregister the device
+      // Delete/unregister the device
       for (var i = 0; i < this.devices.length; i++) {
         if (this.devices[i].id === id) {
-          this.devices.splice(i, 1);
+          // Call to API to delete the device
+          DeviceService.deleteDevice(this.devices[i].id).then(response => {
+            if (response.status == 204) {
+              this.$notify({
+                message: "Device " + this.devices[i].macAddress + " deleted",
+                icon: "add_alert",
+                horizontalAlign: "right",
+                verticalAlign: "bottom",
+                type: "success"
+              });
+              this.devices.splice(i, 1); // Update view
+            }
+          });
           break;
         }
       }

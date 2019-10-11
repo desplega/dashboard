@@ -38,8 +38,8 @@
               <md-input v-model="address" type="text"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-primary">Update Profile</md-button>
+          <div class="md-layout-item md-size-100 text-center">
+            <md-button class="md-raised md-primary" disabled>Update Profile</md-button>
           </div>
         </div>
       </md-card-content>
