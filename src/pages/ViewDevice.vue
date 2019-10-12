@@ -23,7 +23,7 @@
         </md-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
         <stats-card data-background-color="purple">
           <template slot="header">
             <md-icon>border_clear</md-icon>
@@ -33,12 +33,15 @@
             <h3 class="title">{{ status }}</h3>
           </template>
           <template slot="footer">
-            <div class="stats"><md-icon>update</md-icon>Just updated</div>
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Updated at {{ updatedAt }}
+            </div>
           </template>
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>wb_sunny</md-icon>
@@ -48,12 +51,38 @@
             <h3 class="title">{{ temperature }} C</h3>
           </template>
           <template slot="footer">
-            <div class="stats"><md-icon>update</md-icon>Just updated</div>
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Updated at {{ updatedAt }}
+            </div>
           </template>
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-size-100">
+        <chart-card
+          :chart-data="temperatureChart.data"
+          :chart-options="temperatureChart.options"
+          chart-type="Line"
+          header-icon
+          no-footer
+          background-color="blue"
+          :update-chart="updateChart"
+          @chartUpdated="chartUpdated($event)"
+        >
+          <template slot="chartInsideHeader">
+            <div class="card-icon">
+              <md-icon>timeline</md-icon>
+            </div>
+            <h4 class="title">
+              Temperature
+              <small>- Updated at {{ updatedAt }}</small>
+            </h4>
+          </template>
+        </chart-card>
+      </div>
+
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-100">
         <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>highlight</md-icon>
@@ -70,29 +99,6 @@
             </div>
           </template>
         </stats-card>
-      </div>
-
-      <div v-if="hasData" class="md-layout-item md-size-100">
-        <chart-card
-          header-animation="false"
-          :chart-data="colouredLineChart.data"
-          :chart-options="colouredLineChart.options"
-          chart-type="Line"
-          header-icon
-          chart-inside-content
-          no-footer
-          background-color="blue"
-        >
-          <template slot="chartInsideHeader">
-            <div class="card-icon">
-              <md-icon>timeline</md-icon>
-            </div>
-            <h4 class="title">
-              Coloured Line Chart
-              <small>- Rounded</small>
-            </h4>
-          </template>
-        </chart-card>
       </div>
     </div>
   </div>
@@ -117,9 +123,9 @@ export default {
       // Device info
       device: {
         id: null,
-        macAddress: null,
-        name: "Test device",
-        location: "Lannister's forest"
+        macAddress: "",
+        name: "",
+        location: ""
       },
       // View mesh status
       status: "Connected",
@@ -127,75 +133,117 @@ export default {
       temperature: null,
       updated: null,
       // View chart
-      colouredLineChart: {
+      chartData: [],
+      temperatureChart: {
         data: {
-          labels: [
-            "'06",
-            "'07",
-            "'08",
-            "'09",
-            "'10",
-            "'11",
-            "'12",
-            "'13",
-            "'14",
-            "'15"
-          ],
-          series: [[287, 480, 290, 554, 690, 690, 500, 752, 650, 900, 944]]
+          labels: [],
+          series: [[]]
         },
         options: {
           lineSmooth: this.$Chartist.Interpolation.cardinal({
             tension: 10
           }),
+          axisX: {
+            showGrid: false
+          },
           axisY: {
             showGrid: true,
             offset: 40
           },
-          axisX: {
-            showGrid: false
-          },
-          low: 0,
-          high: 1000,
+          low: -10,
+          high: 40,
           showPoint: true,
           height: "300px"
         }
       },
+      updateChart: false,
+      // Updated time
+      updatedAt: "",
       // Toggle LED
       led: null,
       // Socket
       socket: null
     };
   },
-  beforeCreate() {
+  created() {
     // Get device data from ID in the URL
     DeviceService.getDevice(this.$route.params.id).then(response => {
       this.device = response.data;
 
       // Get data
       DataService.get(this.device.macAddress).then(response => {
+        // Confirm there is data to display
         if (response.data.length > 0) {
           this.hasData = true;
+
+          // Updated time
+          this.updatedAt = this.formatDate(response.data[0].createdAt);
+
           // Mesh status
           //this.status = response.data[0].data.status;
-          //TENTATIVE: Use temperature to test both connected and disconnected messages
+          //TENTATIVE: Using temperature to test both connected and disconnected messages
           this.status =
             response.data[0].data.t > 20 ? "Connected" : "Disconnected";
-          console.log(this.status);
+
           // Temperature
           this.temperature = response.data[0].data.t; // In first position the most recent
-          console.log(response.data[0].data.t);
+
+          // Temperature chart
+          this.chartData = response.data.reverse();
+          this.genChart();
+
           // Socket to update device data from api-engine
-          console.log("Socket init...");
-          DataService.get(this.device.macAddress).then(data => {
-            console.log("Data received by API call...");
-            console.log(data);
-          });
-          this.socket = new SocketService();
           console.log("Socket subscription to: " + this.device.macAddress);
-          this.socket.getData(this.device.macAddress);
+          this.socket = new SocketService();
+          this.socket.getData(this.device.macAddress, this.updateData);
         }
       });
     });
+  },
+  methods: {
+    updateData(socketData) {
+      this.updatedAt = this.formatDate(socketData.createdAt);
+      this.temperature = socketData.data.t;
+      this.chartData.splice(0, 1); // Remove the oldest record, the first one
+      this.chartData.push(socketData); // Add the new one
+      this.genChart();
+      // Chart needs to be updated because it is not readtive by default
+      this.updateChart = true; // This will inform the child that chart needs to be updated
+    },
+    genChart() {
+      // Most recent data should be the last in the chart
+      for (let i = 0; i < this.chartData.length; i++) {
+        //if (i % 3 == 1) {
+        this.temperatureChart.data.labels[i] = this.formatTime(
+          this.chartData[i].createdAt
+        );
+        //}
+        this.temperatureChart.data.series[0][i] = this.chartData[i].data.t;
+      }
+    },
+    chartUpdated() {
+      this.updateChart = false;
+    },
+    formatDate(originalTime) {
+      var d = new Date(originalTime);
+      var dateString =
+        d.getDate() +
+        "-" +
+        (d.getMonth() + 1) +
+        "-" +
+        d.getFullYear() +
+        " " +
+        ("0" + d.getHours()).slice(-2) +
+        ":" +
+        ("0" + d.getMinutes()).slice(-2);
+      return dateString;
+    },
+    formatTime(originalTime) {
+      var d = new Date(originalTime);
+      var dateString =
+        ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+      return dateString;
+    }
   }
 };
 </script>
@@ -207,5 +255,14 @@ export default {
 .no-data {
   text-align: center;
   font-size: large;
+}
+
+.ct-label.ct-label.ct-horizontal.ct-end {
+  position: relative;
+  justify-content: flex-end;
+  text-align: right;
+  transform-origin: 100% 0;
+  transform: translate(-100%) rotate(-45deg);
+  white-space: nowrap;
 }
 </style>

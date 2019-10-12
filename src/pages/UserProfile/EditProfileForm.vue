@@ -39,7 +39,9 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-center">
-            <md-button class="md-raised md-primary" disabled>Update Profile</md-button>
+            <md-button class="md-raised md-primary" disabled
+              >Update Profile</md-button
+            >
           </div>
         </div>
       </md-card-content>

@@ -9,10 +9,10 @@ export class SocketService {
       }
     });
   }
-  getData(macAddress) {
+  getData(macAddress, callback) {
     this.socket.on("data:save:" + macAddress, data => {
       console.log("Socket data received:");
-      console.log(data);
+      callback(data);
     });
     this.socket.on("connect", () => {
       console.log("Socket connected");

@@ -1,43 +1,17 @@
 <template>
-  <md-card
-    @mouseleave.native="onMouseLeave"
-    :data-count="hoverCount"
-    class="md-card-chart"
-  >
+  <md-card class="md-card-chart">
     <md-card-header
-      @mouseenter.native="onMouseOver"
-      :data-header-animation="headerAnimation"
       :class="[
-        { hovered: imgHovered },
-        { hinge: headerDown },
-        { fadeInDown: fixedHeader },
-        { animated: true },
         { [getClass(backgroundColor)]: true },
-        { 'md-card-header-text': HeaderText },
-        { 'md-card-header-icon': HeaderIcon }
+        { 'md-card-header-text': headerText },
+        { 'md-card-header-icon': headerIcon }
       ]"
     >
-      <div v-if="chartInsideHeader" :id="chartId" class="ct-chart"></div>
       <slot name="chartInsideHeader"></slot>
     </md-card-header>
 
     <md-card-content>
-      <div v-if="chartInsideContent" :id="chartId" class="ct-chart"></div>
-      <div
-        class="md-card-action-buttons text-center"
-        v-if="headerAnimation === 'true'"
-      >
-        <md-button
-          class="md-danger md-simple fix-broken-card"
-          @click="fixHeader"
-          v-if="headerDown"
-        >
-          <slot name="fixed-button"></slot> Fix Header!
-        </md-button>
-        <slot name="first-button"></slot>
-        <slot name="second-button"></slot>
-        <slot name="third-button"></slot>
-      </div>
+      <div :update-chart="updateChart" :id="chartId" class="ct-chart"></div>
       <slot name="content"></slot>
     </md-card-content>
 
@@ -50,18 +24,16 @@
 export default {
   name: "chart-card",
   props: {
-    HeaderText: Boolean,
-    HeaderIcon: Boolean,
+    headerText: Boolean,
+    headerIcon: Boolean,
     noFooter: Boolean,
-    chartInsideContent: Boolean,
-    chartInsideHeader: Boolean,
+    updateChart: {
+      type: Boolean,
+      default: false
+    },
     chartType: {
       type: String,
       default: "Line" // Line | Pie | Bar
-    },
-    headerAnimation: {
-      type: String,
-      default: "true"
     },
     chartOptions: {
       type: Object,
@@ -97,38 +69,11 @@ export default {
   },
   data() {
     return {
-      hoverCount: 0,
-      imgHovered: false,
-      fixedHeader: false,
+      chart: null,
       chartId: "no-id"
     };
   },
-  computed: {
-    headerDown() {
-      return this.hoverCount > 15;
-    }
-  },
   methods: {
-    headerBack: function() {
-      this.fixedHeader = false;
-    },
-    fixHeader: function() {
-      this.hoverCount = 0;
-      this.fixedHeader = true;
-
-      setTimeout(this.headerBack, 480);
-    },
-    onMouseOver: function() {
-      if (this.headerAnimation === "true") {
-        this.imgHovered = true;
-        this.hoverCount++;
-      }
-    },
-    onMouseLeave: function() {
-      if (this.headerAnimation === "true") {
-        this.imgHovered = false;
-      }
-    },
     getClass: function(backgroundColor) {
       return "md-card-header-" + backgroundColor + "";
     },
@@ -137,7 +82,7 @@ export default {
      */
     initChart() {
       var chartIdQuery = `#${this.chartId}`;
-      this.$Chartist[this.chartType](
+      this.chart = this.$Chartist[this.chartType](
         chartIdQuery,
         this.chartData,
         this.chartOptions,
@@ -159,6 +104,12 @@ export default {
   mounted() {
     this.updateChartId();
     this.$nextTick(this.initChart);
+  },
+  watch: {
+    updateChart() {
+      this.chart.update();
+      this.$emit("chartUpdated");
+    }
   }
 };
 </script>
