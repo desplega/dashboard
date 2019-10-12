@@ -213,11 +213,11 @@ export default {
     genChart() {
       // Most recent data should be the last in the chart
       for (let i = 0; i < this.chartData.length; i++) {
-        //if (i % 3 == 1) {
-        this.temperatureChart.data.labels[i] = this.formatTime(
-          this.chartData[i].createdAt
-        );
-        //}
+        if (i % 3 == 1) {
+          this.temperatureChart.data.labels[i] = this.formatTime(
+            this.chartData[i].createdAt
+          );
+        }
         this.temperatureChart.data.series[0][i] = this.chartData[i].data.t;
       }
     },
