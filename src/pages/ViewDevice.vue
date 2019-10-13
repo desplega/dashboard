@@ -160,7 +160,7 @@ export default {
       // Updated time
       updatedAt: "",
       // Toggle LED
-      led: null,
+      led: "0",
       // Socket
       socket: null
     };
@@ -188,6 +188,9 @@ export default {
           // Temperature
           this.temperature = response.data[0].data.t; // In first position the most recent
 
+          // LED
+          this.led = response.data[0].data.l === "1" ? true : false;
+
           // Temperature chart
           this.chartData = response.data.reverse();
           this.genChart();
@@ -204,6 +207,7 @@ export default {
     updateData(socketData) {
       this.updatedAt = this.formatDate(socketData.createdAt);
       this.temperature = socketData.data.t;
+      this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
       this.genChart();
@@ -214,6 +218,7 @@ export default {
       // Most recent data should be the last in the chart
       for (let i = 0; i < this.chartData.length; i++) {
         if (i % 3 == 1) {
+          // Show only one of every X labels to fit in responsive devices
           this.temperatureChart.data.labels[i] = this.formatTime(
             this.chartData[i].createdAt
           );
@@ -243,6 +248,30 @@ export default {
       var dateString =
         ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
       return dateString;
+    },
+    toggleLED() {
+      // To toggle the LED we resend the last received data
+      let data = {
+        macAddress: this.device.macAddress,
+        data: {
+          t: this.chartData[this.chartData.length -1].data.t,
+          h: this.chartData[this.chartData.length -1].data.h,
+          l: this.led ? "1" : "0"
+        },
+        topic: "led"
+      };
+      DataService.saveData(data)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  watch: {
+    led() {
+      this.toggleLED();
     }
   }
 };
