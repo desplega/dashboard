@@ -260,13 +260,7 @@ export default {
         },
         topic: "led"
       };
-      DataService.saveData(data)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      DataService.saveData(data);
     }
   },
   watch: {
