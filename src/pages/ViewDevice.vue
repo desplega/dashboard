@@ -254,8 +254,8 @@ export default {
       let data = {
         macAddress: this.device.macAddress,
         data: {
-          t: this.chartData[this.chartData.length -1].data.t,
-          h: this.chartData[this.chartData.length -1].data.h,
+          t: this.chartData[this.chartData.length - 1].data.t,
+          h: this.chartData[this.chartData.length - 1].data.h,
           l: this.led ? "1" : "0"
         },
         topic: "led"
