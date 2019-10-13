@@ -27,6 +27,10 @@ Vue.prototype.$http = Axios;
 import GlobalComponents from "./globalComponents";
 import GlobalDirectives from "./globalDirectives";
 import Notifications from "./components/NotificationPlugin";
+import GlobalConstants from "./globalConstants";
+
+// Make global constants accessible through this.$globals
+Vue.prototype.$globals = GlobalConstants;
 
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
@@ -43,11 +47,17 @@ Vue.use(Notifications);
 // Turn off production tip in JS console
 Vue.config.productionTip = false;
 
-// Check for token and globally configure authorization for all future API calls
-const token = localStorage.getItem("user-token");
-if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
-}
+// Init authentication
+store
+  .dispatch("initAuthentication")
+  .then(() => {
+    // Token is valid
+  })
+  .catch(err => {
+    // Invalid token
+    console.log(err);
+    router.push("/login");
+  });
 
 /* eslint-disable no-new */
 new Vue({

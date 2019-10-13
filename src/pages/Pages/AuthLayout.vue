@@ -67,7 +67,8 @@ export default {
   computed: {
     setBgImage() {
       let images = {
-        Login: "./img/login.jpg"
+        Login: "./img/login.jpg",
+        NotFound: "./img/not-found.jpg"
       };
       return {
         backgroundImage: `url(${images[this.$route.name]})`

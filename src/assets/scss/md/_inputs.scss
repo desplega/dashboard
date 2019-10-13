@@ -394,6 +394,34 @@ select.form-control {
     -webkit-text-fill-color: $black-color !important;
   }
 
+  &.md-valid{
+    label{
+      color: $brand-success !important;
+    }
+
+    &:before{
+      background-color: $brand-success !important;
+    }
+
+    .md-icon{
+      color: $brand-success !important;
+    }
+  }
+
+  &.md-error{
+    label{
+      color: $brand-danger !important;
+    }
+
+    &:before{
+      background-color: $brand-danger !important;
+    }
+
+    .md-icon{
+      color: $brand-danger !important;
+    }
+  }
+
   &.md-has-textarea:not(.md-autogrow) label{
     left: 0;
   }
@@ -402,7 +430,6 @@ select.form-control {
     color: $white-color !important;
     -webkit-text-fill-color: $white-color !important;
   }
-
 
   label{
     font-size: 14px;
@@ -473,6 +500,58 @@ select.form-control {
 
     svg{
       fill: $gray-light !important;
+    }
+  }
+}
+
+.md-field{
+  padding-bottom: 10px;
+  padding-top: 0;
+  margin: 13px 0 0;
+  min-height: auto;
+
+  &.md-focused label,
+  &.md-field.md-has-value label{
+    top: -.8rem;
+  }
+
+  .success.md-icon,
+  .error.md-icon{
+    transition: none;
+    position: absolute;
+    right: 0;
+    top: 3px;
+    font-size: 20px !important;
+
+    &:after{
+      display: none;
+    }
+  }
+
+  &:after,
+  &:before{
+    bottom: 10px;
+  }
+
+  label{
+    top: 9px;
+  }
+
+  &.md-form-group,
+  &.md-datepicker{
+    > .md-icon{
+      margin: 6px 0;
+      color: $input-group-addon-bg;
+
+      &:after{
+        display: none;
+      }
+    }
+
+    &:after,
+    &:before{
+      width: calc(100% - 36px);
+      margin-left: auto;
     }
   }
 }

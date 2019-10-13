@@ -15,11 +15,16 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next();
-      return;
+    } else {
+      next("/login");
     }
-    next("/login");
   } else {
-    next();
+    // If "login" manually requested and logged in then abort the current navigation.
+    if (to.fullPath === "/login" && store.getters.isLoggedIn) {
+      next(false);
+    } else {
+      next();
+    }
   }
 });
 

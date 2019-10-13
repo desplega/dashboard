@@ -8,7 +8,7 @@
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
-      <sidebar-link to="#">
+      <sidebar-link to="/register-device">
         <md-icon>add_circle_outline</md-icon>
         <p>Register device</p>
       </sidebar-link>

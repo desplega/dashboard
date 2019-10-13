@@ -132,8 +132,10 @@
     }
 }
 
-.login-page{
-  .md-card-login {
+.login-page,
+.notfound-page{
+  .md-card-login,
+  .md-card-not-found{
     max-width: 340px;
     margin: 0 auto;
     @include transform-translate-y(0);
