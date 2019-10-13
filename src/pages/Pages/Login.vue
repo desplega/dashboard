@@ -6,7 +6,7 @@
       <login-card header-color="green">
         <h4 slot="title" class="title">Log in</h4>
         <p slot="description" class="description">Welcome!</p>
-        <md-field class="md-form-group" slot="inputs">
+        <md-field slot="inputs">
           <md-icon>email</md-icon>
           <label>Email...</label>
           <md-input
@@ -15,7 +15,7 @@
             @keyup.enter="login()"
           ></md-input>
         </md-field>
-        <md-field class="md-form-group" slot="inputs">
+        <md-field slot="inputs">
           <md-icon>lock_outline</md-icon>
           <label>Password...</label>
           <md-input
@@ -78,5 +78,9 @@ export default {
 <style>
 .text-center {
   text-align: center;
+}
+
+.md-button {
+  top: 0px;
 }
 </style>
