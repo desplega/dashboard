@@ -5,7 +5,7 @@
         <div v-if="deviceDataLoaded">
           <edit-register-device-form
             data-background-color="blue"
-            :disableMacAddress="true"
+            :disableNumber="true"
             :device="device"
             @saveDevice="saveDevice($event)"
           >

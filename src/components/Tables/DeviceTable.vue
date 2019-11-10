@@ -3,8 +3,8 @@
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="macAddress">{{
-          item.macAddress
+        <md-table-cell md-label="number">{{
+          item.number
         }}</md-table-cell>
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
@@ -47,7 +47,7 @@
         <template slot="body">
           <p>
             Are you sure you want to delete the
-            {{ this.device.macAddress }} device?
+            {{ this.device.number }} device?
           </p>
         </template>
 

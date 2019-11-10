@@ -27,7 +27,7 @@ export default {
   methods: {
     findDeviceInList(device, devices) {
       for (var i = 0; i < devices.length; i++) {
-        if (devices[i].macAddress === device.macAddress) {
+        if (devices[i].number === device.number) {
           return true;
         }
       }

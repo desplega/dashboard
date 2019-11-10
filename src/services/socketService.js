@@ -9,8 +9,8 @@ export class SocketService {
       }
     });
   }
-  getData(macAddress, callback) {
-    this.socket.on("data:save:" + macAddress, data => {
+  getData(number, callback) {
+    this.socket.on("data:save:" + number, data => {
       console.log("Socket data received:");
       callback(data);
     });

@@ -39,9 +39,9 @@ export default {
       for (var i = 0, len = response.data.length; i < len; i++) {
         let device = {};
         device.id = response.data[i]._id; // Database internal id
-        device.macAddress = response.data[i].macAddress;
+        device.number = response.data[i].number;
         device.name = response.data[i].name;
-        device.location = "Not specified";
+        device.location = response.data[i].location;
         let date = response.data[i].updatedAt;
         device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
         device.status = "ok"; // Otherwise "fail"
@@ -58,7 +58,7 @@ export default {
           DeviceService.deleteDevice(this.devices[i].id).then(response => {
             if (response.status == 204) {
               this.$notify({
-                message: "Device " + this.devices[i].macAddress + " deleted",
+                message: "Device " + this.devices[i].number + " deleted",
                 icon: "add_alert",
                 horizontalAlign: "right",
                 verticalAlign: "bottom",

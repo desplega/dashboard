@@ -4,7 +4,7 @@
       <div class="md-layout-item md-medium-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Device macAddress: {{ device.macAddress }}</h4>
+            <h4 class="title">Device number: {{ device.number }}</h4>
             <p class="category">Information on the device</p>
           </md-card-header>
           <md-card-content>
@@ -23,8 +23,8 @@
         </md-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
-        <stats-card data-background-color="purple">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+        <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>border_clear</md-icon>
           </template>
@@ -41,14 +41,32 @@
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>wb_sunny</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Temperature</p>
-            <h3 class="title">{{ temperature }} C</h3>
+            <p class="category">Temperature (external)</p>
+            <h3 class="title">{{ t0 }} C</h3>
+          </template>
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Updated at {{ updatedAt }}
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+        <stats-card data-background-color="purple">
+          <template slot="header">
+            <md-icon>home</md-icon>
+          </template>
+          <template slot="content">
+            <p class="category">Temperature (internal)</p>
+            <h3 class="title">{{ t1 }} C</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -75,13 +93,14 @@
               <md-icon>timeline</md-icon>
             </div>
             <h4 class="title">
-              Temperature
+              Temperatures (external/internal)
               <small>- Updated at {{ updatedAt }}</small>
             </h4>
           </template>
         </chart-card>
       </div>
 
+      <!-- DISABLED
       <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-100">
         <stats-card data-background-color="red">
           <template slot="header">
@@ -100,6 +119,7 @@
           </template>
         </stats-card>
       </div>
+      -->
     </div>
   </div>
 </template>
@@ -123,14 +143,15 @@ export default {
       // Device info
       device: {
         id: null,
-        macAddress: "",
+        number: "",
         name: "",
         location: ""
       },
       // View mesh status
       status: "Connected",
-      // View temperature
-      temperature: null,
+      // View temperatures
+      t0: null,
+      t1: null,
       updated: null,
       // View chart
       chartData: [],
@@ -171,7 +192,7 @@ export default {
       this.device = response.data;
 
       // Get data
-      DataService.get(this.device.macAddress).then(response => {
+      DataService.get(this.device.number).then(response => {
         // Confirm there is data to display
         if (response.data.length > 0) {
           this.hasData = true;
@@ -182,11 +203,11 @@ export default {
           // Mesh status
           //this.status = response.data[0].data.status;
           //TENTATIVE: Using temperature to test both connected and disconnected messages
-          this.status =
-            response.data[0].data.t > 20 ? "Connected" : "Disconnected";
+          this.status = response.data[0].data.m ? "Connected" : "Not connected";
 
           // Temperature
-          this.temperature = response.data[0].data.t; // In first position the most recent
+          this.t0 = response.data[0].data.t0; // In first position the most recent
+          this.t1 = response.data[0].data.t1; // In first position the most recent
 
           // LED
           this.led = response.data[0].data.l === "1" ? true : false;
@@ -196,9 +217,9 @@ export default {
           this.genChart();
 
           // Socket to update device data from api-engine
-          console.log("Socket subscription to: " + this.device.macAddress);
+          console.log("Socket subscription to: " + this.device.number);
           this.socket = new SocketService();
-          this.socket.getData(this.device.macAddress, this.updateData);
+          this.socket.getData(this.device.number, this.updateData);
         }
       });
     });
@@ -206,7 +227,9 @@ export default {
   methods: {
     updateData(socketData) {
       this.updatedAt = this.formatDate(socketData.createdAt);
-      this.temperature = socketData.data.t;
+      this.t0 = socketData.data.t0;
+      this.t1 = socketData.data.t1;
+      this.mesh = socketData.data.m === "1" ? true : false;
       this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
@@ -223,7 +246,8 @@ export default {
             this.chartData[i].createdAt
           );
         }
-        this.temperatureChart.data.series[0][i] = this.chartData[i].data.t;
+        this.temperatureChart.data.series[0][i] = this.chartData[i].data.t0;
+        this.temperatureChart.data.series[1][i] = this.chartData[i].data.t1;
       }
     },
     chartUpdated() {
@@ -250,12 +274,13 @@ export default {
       return dateString;
     },
     toggleLED() {
-      // To toggle the LED we resend the last received data
+      // To toggle the LED we resend the last received data to force an MQTT message
       let data = {
-        macAddress: this.device.macAddress,
+        number: this.device.number,
         data: {
-          t: this.chartData[this.chartData.length - 1].data.t,
-          h: this.chartData[this.chartData.length - 1].data.h,
+          t0: this.chartData[this.chartData.length - 1].data.t0,
+          t1: this.chartData[this.chartData.length - 1].data.t1,
+          m: this.mesh ? "1" : "0",
           l: this.led ? "1" : "0"
         },
         topic: "led"
