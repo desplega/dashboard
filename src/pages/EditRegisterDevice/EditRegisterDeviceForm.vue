@@ -44,9 +44,7 @@
                 { 'md-error': errors.has('number') },
                 {
                   'md-valid':
-                    !errors.has('number') &&
-                    touched.number &&
-                    !disableNumber
+                    !errors.has('number') && touched.number && !disableNumber
                 }
               ]"
             >
@@ -68,9 +66,7 @@
                 <md-icon
                   class="success"
                   v-show="
-                    !errors.has('number') &&
-                      touched.number &&
-                      !disableNumber
+                    !errors.has('number') && touched.number && !disableNumber
                   "
                   >done</md-icon
                 >

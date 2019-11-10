@@ -17,7 +17,10 @@
               {{ device.location }}
             </p>
             <p v-if="!hasData" class="no-data">
-              <span>No data yet!</span>
+              <span>No data yet. Review device!</span>
+            </p>
+            <p v-if="deviceNotSending" class="no-data">
+              <span>Device not sending. Review device!</span>
             </p>
           </md-card-content>
         </md-card>
@@ -30,7 +33,7 @@
           </template>
           <template slot="content">
             <p class="category">Mesh Status</p>
-            <h3 class="title">{{ status }}</h3>
+            <h3 class="title">{{ mesh }}</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -140,6 +143,8 @@ export default {
     return {
       // Data flag
       hasData: false,
+      // Device not sending
+      deviceNotSending: false,
       // Device info
       device: {
         id: null,
@@ -148,7 +153,7 @@ export default {
         location: ""
       },
       // View mesh status
-      status: "Connected",
+      mesh: "Connected",
       // View temperatures
       t0: null,
       t1: null,
@@ -158,7 +163,7 @@ export default {
       temperatureChart: {
         data: {
           labels: [],
-          series: [[]]
+          series: [[], []] // Two temperatures on the same chart
         },
         options: {
           lineSmooth: this.$Chartist.Interpolation.cardinal({
@@ -200,10 +205,24 @@ export default {
           // Updated time
           this.updatedAt = this.formatDate(response.data[0].createdAt);
 
+          // If last update time is older than 30 minutes show a warning (device might be Off)
+          let today = new Date();
+          let last = new Date(
+            this.updatedAt.substr(6, 4),      // year
+            this.updatedAt.substr(3, 2) - 1,  // month
+            this.updatedAt.substr(0, 2),      // day
+            this.updatedAt.substr(11, 2),     // hour
+            this.updatedAt.substr(14, 2),     // minutes
+            0,                                // seconds
+            0                                 // milliseconds
+          );
+          if ((today.getTime() - last.getTime()) > 60000)
+            this.deviceNotSending = true;
+          else
+            this.deviceNotSending = false;
+
           // Mesh status
-          //this.status = response.data[0].data.status;
-          //TENTATIVE: Using temperature to test both connected and disconnected messages
-          this.status = response.data[0].data.m ? "Connected" : "Not connected";
+          this.mesh = response.data[0].data.m ? "Connected" : "Not connected";
 
           // Temperature
           this.t0 = response.data[0].data.t0; // In first position the most recent

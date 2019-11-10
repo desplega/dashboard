@@ -3,9 +3,7 @@
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="number">{{
-          item.number
-        }}</md-table-cell>
+        <md-table-cell md-label="number">{{ item.number }}</md-table-cell>
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
         <md-table-cell md-label="Status">
