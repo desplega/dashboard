@@ -17,10 +17,10 @@
               {{ device.location }}
             </p>
             <p v-if="!hasData" class="no-data">
-              <span>No data yet. Review device!</span>
+              <span>No data yet. Check device!</span>
             </p>
             <p v-if="deviceNotSending" class="no-data">
-              <span>Device not sending. Review device!</span>
+              <span>Device not sending. Check device!</span>
             </p>
           </md-card-content>
         </md-card>
@@ -202,37 +202,42 @@ export default {
         if (response.data.length > 0) {
           this.hasData = true;
 
-          // Updated time
-          this.updatedAt = this.formatDate(response.data[0].createdAt);
+          // Get the most recent data
+          let lastData = response.data[0];
+
+          // Updated time (last value is the most recent)
+          this.updatedAt = this.formatDate(lastData.createdAt);
 
           // If last update time is older than 30 minutes show a warning (device might be Off)
           let today = new Date();
           let last = new Date(
-            this.updatedAt.substr(6, 4),      // year
-            this.updatedAt.substr(3, 2) - 1,  // month
-            this.updatedAt.substr(0, 2),      // day
-            this.updatedAt.substr(11, 2),     // hour
-            this.updatedAt.substr(14, 2),     // minutes
-            0,                                // seconds
-            0                                 // milliseconds
+            this.updatedAt.substr(6, 4), // year
+            this.updatedAt.substr(3, 2) - 1, // month
+            this.updatedAt.substr(0, 2), // day
+            this.updatedAt.substr(11, 2), // hour
+            this.updatedAt.substr(14, 2), // minutes
+            0, // seconds
+            0 // milliseconds
           );
-          if ((today.getTime() - last.getTime()) > 60000)
+          // If last measurement is older than 20 minutes it means the device is not currently sending new data
+          if (today.getTime() - last.getTime() > 1200000) {
             this.deviceNotSending = true;
-          else
+          } else {
             this.deviceNotSending = false;
+          }
 
           // Mesh status
-          this.mesh = response.data[0].data.m ? "Connected" : "Not connected";
+          this.mesh = lastData.data.m ? "Connected" : "Not connected";
 
           // Temperature
-          this.t0 = response.data[0].data.t0; // In first position the most recent
-          this.t1 = response.data[0].data.t1; // In first position the most recent
+          this.t0 = lastData.data.t0;
+          this.t1 = lastData.data.t1;
 
           // LED
-          this.led = response.data[0].data.l === "1" ? true : false;
+          this.led = lastData.data.l === "1" ? true : false;
 
           // Temperature chart
-          this.chartData = response.data.reverse();
+          this.chartData = response.data.reverse(); // Last value is the most recent
           this.genChart();
 
           // Socket to update device data from api-engine
@@ -248,13 +253,15 @@ export default {
       this.updatedAt = this.formatDate(socketData.createdAt);
       this.t0 = socketData.data.t0;
       this.t1 = socketData.data.t1;
-      this.mesh = socketData.data.m === "1" ? true : false;
+      this.mesh = socketData.data.m === "1" ? "Connected" : "Not connected";
       this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
       this.genChart();
       // Chart needs to be updated because it is not readtive by default
       this.updateChart = true; // This will inform the child that chart needs to be updated
+      // Device is sending
+      this.deviceNotSending = false;
     },
     genChart() {
       // Most recent data should be the last in the chart
