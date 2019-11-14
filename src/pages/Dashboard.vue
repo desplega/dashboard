@@ -23,6 +23,7 @@
 <script>
 import { DeviceTable } from "@/components";
 import DeviceService from "@/services/DeviceService";
+import DataService from "@/services/DataService";
 
 export default {
   components: {
@@ -34,20 +35,27 @@ export default {
     };
   },
   created() {
-    DeviceService.get().then(response => {
-      this.devices = [];
-      for (var i = 0, len = response.data.length; i < len; i++) {
-        let device = {};
-        device.id = response.data[i]._id; // Database internal id
-        device.number = response.data[i].number;
-        device.name = response.data[i].name;
-        device.location = response.data[i].location;
-        let date = response.data[i].updatedAt;
-        device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
-        device.status = "ok"; // Otherwise "fail"
-        this.devices.push(device);
-      }
-    });
+    return DeviceService.get()
+      .then(response => {
+        this.devices = [];
+        for (var i = 0, len = response.data.length; i < len; i++) {
+          let device = {};
+          device.id = response.data[i]._id; // Database internal id
+          device.number = response.data[i].number;
+          device.name = response.data[i].name;
+          device.location = response.data[i].location;
+          let date = response.data[i].updatedAt;
+          device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
+          device.mesh = this.deviceNotSending;
+          this.devices.push(device);
+        }
+      })
+      .then((response) => {
+        // Get mesh status of each device
+        for (var i = 0; i < this.devices.length; i++) {
+          this.getMeshStatus(i);
+        }
+      });
   },
   methods: {
     deleteDevice: function(id) {
@@ -70,6 +78,40 @@ export default {
           break;
         }
       }
+    },
+    getMeshStatus: function(deviceIndex) {
+      // Get the mesh status for the specified device
+      DataService.get(this.devices[deviceIndex].number).then(response => {
+        // Confirm there is data to display
+        if (response.data.length > 0) {
+          // Get the most recent data
+          let lastData = response.data[0];
+
+          /*
+          // Updated time (last value is the most recent)
+          var last = new Date(lastData.createdAt);
+
+          // If last update time is older than 30 minutes show a warning (device might be Off)
+          let today = new Date();
+
+          // If last measurement is older than 20 minutes it means the device is not currently sending new data
+          if (today.getTime() - last.getTime() > 1200000) {
+            this.devices[deviceIndex].deviceNotSending = true;
+          } else {
+            this.devices[deviceIndex].deviceNotSending = false;
+          }
+          */
+
+          // Mesh status
+          this.devices[deviceIndex].mesh = lastData.data.m;
+
+          // PENDING
+          // Socket to update device data from api-engine
+          //console.log("Socket subscription to: " + this.device.number);
+          //this.socket = new SocketService();
+          //this.socket.getData(this.device.number, this.updateData);
+        }
+      });
     }
   }
 };

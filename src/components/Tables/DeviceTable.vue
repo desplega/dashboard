@@ -3,11 +3,11 @@
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="number">{{ item.number }}</md-table-cell>
+        <md-table-cell md-label="Number">{{ item.number }}</md-table-cell>
         <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
         <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
-        <md-table-cell md-label="Status">
-          <md-icon :class="getClass(item.status)">offline_bolt</md-icon>
+        <md-table-cell md-label="Mesh status">
+          <md-icon :class="getClass(item.mesh)">offline_bolt</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
@@ -87,8 +87,8 @@ export default {
     };
   },
   methods: {
-    getClass: function(status) {
-      return status == "ok" ? "status-green" : "status-red";
+    getClass: function(mesh) {
+      return mesh === "1" ? "mesh-green" : "mesh-red";
     },
     viewDevice: function(id) {
       this.$router.push({ name: "View Device", params: { id } });
@@ -112,12 +112,12 @@ export default {
 </script>
 
 <style lang="css">
-.md-icon.status-green {
+.md-icon.mesh-green {
   color: green !important;
   padding-left: 25px;
 }
 
-.md-icon.status-red {
+.md-icon.mesh-red {
   color: red !important;
   padding-left: 25px;
 }
