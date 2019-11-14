@@ -50,7 +50,7 @@ export default {
           this.devices.push(device);
         }
       })
-      .then((response) => {
+      .then(() => {
         // Get mesh status of each device
         for (var i = 0; i < this.devices.length; i++) {
           this.getMeshStatus(i);
