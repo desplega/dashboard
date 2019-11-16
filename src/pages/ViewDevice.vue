@@ -33,7 +33,7 @@
           </template>
           <template slot="content">
             <p class="category">Mesh Status</p>
-            <h3 class="title">{{ mesh }}</h3>
+            <h3 class="title">{{ mesh ? "Connected" : "Not connected" }}</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -153,7 +153,7 @@ export default {
         location: ""
       },
       // View mesh status
-      mesh: "Connected",
+      mesh: true,
       // View temperatures
       t0: null,
       t1: null,
@@ -227,7 +227,7 @@ export default {
           }
 
           // Mesh status
-          this.mesh = lastData.data.m ? "Connected" : "Not connected";
+          this.mesh = lastData.data.m === "1" ? true : false;
 
           // Temperature
           this.t0 = lastData.data.t0;
@@ -257,7 +257,7 @@ export default {
       this.updatedAt = this.formatDate(socketData.createdAt);
       this.t0 = socketData.data.t0;
       this.t1 = socketData.data.t1;
-      this.mesh = socketData.data.m === "1" ? "Connected" : "Not connected";
+      this.mesh = socketData.data.m === "1" ? true : false;
       this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
