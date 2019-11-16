@@ -24,6 +24,7 @@
 import { DeviceTable } from "@/components";
 import DeviceService from "@/services/DeviceService";
 import DataService from "@/services/DataService";
+import { SocketService } from "@/services/SocketService.js";
 
 export default {
   components: {
@@ -31,7 +32,8 @@ export default {
   },
   data() {
     return {
-      devices: []
+      devices: [],
+      socket: undefined
     };
   },
   created() {
@@ -46,16 +48,30 @@ export default {
           device.location = response.data[i].location;
           let date = response.data[i].updatedAt;
           device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
-          device.mesh = this.deviceNotSending;
+          device.mesh = false; // This information needs to be got from the device status
           this.devices.push(device);
         }
       })
       .then(() => {
+        // Create socket and subscribe to each device to receive the updated status
+        this.socket = new SocketService();
+        this.socket.connect();
         // Get mesh status of each device
         for (var i = 0; i < this.devices.length; i++) {
           this.getMeshStatus(i);
+          console.log("Socket subscription to: " + this.devices[i].number);
+          this.socket.getData(this.devices[i].number, socketData => {
+            let device = this.devices.find(
+              obj => obj.number === socketData.number
+            );
+            let deviceIndex = this.devices.indexOf(device);
+            this.devices[deviceIndex].mesh = socketData.data.m;
+          });
         }
       });
+  },
+  destroyed() {
+    this.socket.disconnect();
   },
   methods: {
     deleteDevice: function(id) {
