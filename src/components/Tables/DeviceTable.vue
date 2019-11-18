@@ -2,24 +2,31 @@
   <div>
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Number">{{ item.number }}</md-table-cell>
-        <md-table-cell md-label="Location">{{ item.location }}</md-table-cell>
-        <md-table-cell md-label="Updated">{{ item.updated }}</md-table-cell>
+        <md-table-cell md-label="Name">{{ item.info.name }}</md-table-cell>
+        <md-table-cell md-label="Number">{{ item.info.number }}</md-table-cell>
+        <md-table-cell md-label="Location">
+          {{ item.info.location }}
+        </md-table-cell>
+        <md-table-cell md-label="Updated">
+          {{ item.data.updated }}
+          <md-icon v-if="item.data.deviceNotSending === '1'" class="warning"
+            >warning</md-icon
+          >
+        </md-table-cell>
         <md-table-cell md-label="Mesh status">
-          <md-icon :class="getClass(item.mesh)">offline_bolt</md-icon>
+          <md-icon :class="getClass(item.data.mesh)">offline_bolt</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
             class="md-just-icon md-simple"
-            @click="viewDevice(item.id)"
+            @click="viewDevice(item.info.id)"
           >
             <md-icon>art_track</md-icon>
             <md-tooltip md-direction="bottom">View device</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
-            @click="editDevice(item.id)"
+            @click="editDevice(item.info.id)"
           >
             <md-icon>edit</md-icon>
             <md-tooltip md-direction="bottom">Edit device</md-tooltip>
@@ -45,7 +52,7 @@
         <template slot="body">
           <p>
             Are you sure you want to delete the
-            {{ this.device.number }} device?
+            {{ this.device.info.number }} device?
           </p>
         </template>
 
@@ -101,7 +108,7 @@ export default {
       this.device = item; // To show the user the ID of the device to be deleted
     },
     confirmDeleteDevice: function() {
-      this.$emit("deleteDevice", this.device.id);
+      this.$emit("deleteDevice", this.device.info.id);
       this.alertModal = false;
     },
     alertModalHide: function() {
@@ -114,11 +121,15 @@ export default {
 <style lang="css">
 .md-icon.mesh-green {
   color: green !important;
-  padding-left: 25px;
+  padding-left: 50px;
 }
 
 .md-icon.mesh-red {
   color: red !important;
-  padding-left: 25px;
+  padding-left: 50px;
+}
+
+.md-icon.warning {
+  color: orange !important;
 }
 </style>

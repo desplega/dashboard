@@ -21,6 +21,7 @@
             </p>
             <p v-if="deviceNotSending" class="no-data">
               <span>Device not sending. Check device!</span>
+              <md-icon class="warning">warning</md-icon>
             </p>
           </md-card-content>
         </md-card>
@@ -103,7 +104,7 @@
         </chart-card>
       </div>
 
-      <!-- DISABLED
+      <!-- LED DISABLED
       <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-100">
         <stats-card data-background-color="red">
           <template slot="header">
@@ -133,12 +134,14 @@ import { ChartCard } from "@/components";
 import DeviceService from "@/services/DeviceService.js";
 import DataService from "@/services/DataService.js";
 import { SocketService } from "@/services/SocketService.js";
+import mixin from "@/mixins/DateTime.js";
 
 export default {
   components: {
     StatsCard,
     ChartCard
   },
+  mixins: [mixin],
   data() {
     return {
       // Data flag
@@ -205,26 +208,11 @@ export default {
           // Get the most recent data
           let lastData = response.data[0];
 
+          // If last update time is older than 30 minutes show a warning (device might be Off)
+          this.deviceNotSending = this.isOldDate(lastData.createdAt);
+
           // Updated time (last value is the most recent)
           this.updatedAt = this.formatDate(lastData.createdAt);
-
-          // If last update time is older than 30 minutes show a warning (device might be Off)
-          let today = new Date();
-          let last = new Date(
-            this.updatedAt.substr(6, 4), // year
-            this.updatedAt.substr(3, 2) - 1, // month
-            this.updatedAt.substr(0, 2), // day
-            this.updatedAt.substr(11, 2), // hour
-            this.updatedAt.substr(14, 2), // minutes
-            0, // seconds
-            0 // milliseconds
-          );
-          // If last measurement is older than 20 minutes it means the device is not currently sending new data
-          if (today.getTime() - last.getTime() > 1200000) {
-            this.deviceNotSending = true;
-          } else {
-            this.deviceNotSending = false;
-          }
 
           // Mesh status
           this.mesh = lastData.data.m === "1" ? true : false;
@@ -283,26 +271,6 @@ export default {
     chartUpdated() {
       this.updateChart = false;
     },
-    formatDate(originalTime) {
-      var d = new Date(originalTime);
-      var dateString =
-        d.getDate() +
-        "-" +
-        (d.getMonth() + 1) +
-        "-" +
-        d.getFullYear() +
-        " " +
-        ("0" + d.getHours()).slice(-2) +
-        ":" +
-        ("0" + d.getMinutes()).slice(-2);
-      return dateString;
-    },
-    formatTime(originalTime) {
-      var d = new Date(originalTime);
-      var dateString =
-        ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-      return dateString;
-    },
     toggleLED() {
       // To toggle the LED we resend the last received data to force an MQTT message
       let data = {
@@ -342,5 +310,9 @@ export default {
   transform-origin: 100% 0;
   transform: translate(-100%) rotate(-45deg);
   white-space: nowrap;
+}
+
+.md-icon.warning {
+  color: orange !important;
 }
 </style>
