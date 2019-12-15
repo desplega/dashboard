@@ -67,5 +67,17 @@ new Vue({
   store,
   data: {
     Chartist: Chartist
+  },
+  created: function() {
+    // Intercept all API calls. In case token expires, redirect to login.
+    Axios.interceptors.response.use(undefined, function(err) {
+      if (err.response.status === 401) {
+        // If you ever get an unauthorized, logout the user and redirect to /login
+        store.dispatch("logout").then(() => {
+          router.push("/login");
+        });
+        console.log(err);
+      }
+    });
   }
 });

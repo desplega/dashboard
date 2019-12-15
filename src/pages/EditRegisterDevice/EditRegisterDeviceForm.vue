@@ -41,26 +41,24 @@
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field
               :class="[
-                { 'md-error': errors.has('macAddress') },
+                { 'md-error': errors.has('number') },
                 {
                   'md-valid':
-                    !errors.has('macAddress') &&
-                    touched.macAddress &&
-                    !disableMacAddress
+                    !errors.has('number') && touched.number && !disableNumber
                 }
               ]"
             >
-              <label>macAddress</label>
+              <label>number</label>
               <md-input
-                v-model="macAddress"
-                data-vv-name="macAddress"
+                v-model="number"
+                data-vv-name="number"
                 type="number"
-                v-validate="modelValidations.macAddress"
+                v-validate="modelValidations.number"
                 required
-                :disabled="disableMacAddress"
+                :disabled="disableNumber"
               ></md-input>
               <slide-y-down-transition>
-                <md-icon class="error" v-show="errors.has('macAddress')"
+                <md-icon class="error" v-show="errors.has('number')"
                   >close</md-icon
                 >
               </slide-y-down-transition>
@@ -68,9 +66,7 @@
                 <md-icon
                   class="success"
                   v-show="
-                    !errors.has('macAddress') &&
-                      touched.macAddress &&
-                      !disableMacAddress
+                    !errors.has('number') && touched.number && !disableNumber
                   "
                   >done</md-icon
                 >
@@ -136,7 +132,7 @@ export default {
       type: String,
       default: ""
     },
-    disableMacAddress: {
+    disableNumber: {
       type: Boolean,
       default: false
     },
@@ -145,7 +141,7 @@ export default {
       default: () => {
         return {
           name: "",
-          macAddress: "", // Used to detect if component is called from Register or Edit
+          number: "", // Used to detect if component is called from Register or Edit
           location: ""
         };
       }
@@ -155,19 +151,19 @@ export default {
     return {
       // Device
       name: "",
-      macAddress: "",
+      number: "",
       location: "",
       // Form validation
       touched: {
         name: false,
-        macAddress: false,
+        number: false,
         location: false
       },
       modelValidations: {
         name: {
           required: true
         },
-        macAddress: {
+        number: {
           required: true,
           numeric: true,
           min: 12,
@@ -180,9 +176,9 @@ export default {
     };
   },
   created() {
-    if (this.device.macAddress != "") {
+    if (this.device.number != "") {
       this.name = this.device.name;
-      this.macAddress = this.device.macAddress;
+      this.number = this.device.number;
       this.location = this.device.location;
     }
   },
@@ -193,7 +189,7 @@ export default {
           // Check not empty fields
           let device = {
             name: this.name,
-            macAddress: this.macAddress,
+            number: this.number,
             location: this.location
           };
           this.$emit("saveDevice", device);
@@ -205,8 +201,8 @@ export default {
     name() {
       this.touched.name = true;
     },
-    macAddress() {
-      this.touched.macAddress = true;
+    number() {
+      this.touched.number = true;
     },
     location() {
       this.touched.location = true;

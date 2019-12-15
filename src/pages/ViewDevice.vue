@@ -4,7 +4,7 @@
       <div class="md-layout-item md-medium-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Device macAddress: {{ device.macAddress }}</h4>
+            <h4 class="title">Device number: {{ device.number }}</h4>
             <p class="category">Information on the device</p>
           </md-card-header>
           <md-card-content>
@@ -17,20 +17,24 @@
               {{ device.location }}
             </p>
             <p v-if="!hasData" class="no-data">
-              <span>No data yet!</span>
+              <span>No data yet. Check device!</span>
+            </p>
+            <p v-if="deviceNotSending" class="no-data">
+              <span>Device not sending. Check device!</span>
+              <md-icon class="warning">warning</md-icon>
             </p>
           </md-card-content>
         </md-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
-        <stats-card data-background-color="purple">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+        <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>border_clear</md-icon>
           </template>
           <template slot="content">
             <p class="category">Mesh Status</p>
-            <h3 class="title">{{ status }}</h3>
+            <h3 class="title">{{ mesh ? "Connected" : "Not connected" }}</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -41,14 +45,32 @@
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>wb_sunny</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Temperature</p>
-            <h3 class="title">{{ temperature }} C</h3>
+            <p class="category">Temperature (external)</p>
+            <h3 class="title">{{ t0 }} C</h3>
+          </template>
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Updated at {{ updatedAt }}
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+        <stats-card data-background-color="purple">
+          <template slot="header">
+            <md-icon>home</md-icon>
+          </template>
+          <template slot="content">
+            <p class="category">Temperature (internal)</p>
+            <h3 class="title">{{ t1 }} C</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -75,13 +97,14 @@
               <md-icon>timeline</md-icon>
             </div>
             <h4 class="title">
-              Temperature
+              Temperatures (external/internal)
               <small>- Updated at {{ updatedAt }}</small>
             </h4>
           </template>
         </chart-card>
       </div>
 
+      <!-- LED DISABLED
       <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-100">
         <stats-card data-background-color="red">
           <template slot="header">
@@ -100,6 +123,7 @@
           </template>
         </stats-card>
       </div>
+      -->
     </div>
   </div>
 </template>
@@ -110,34 +134,39 @@ import { ChartCard } from "@/components";
 import DeviceService from "@/services/DeviceService.js";
 import DataService from "@/services/DataService.js";
 import { SocketService } from "@/services/SocketService.js";
+import mixin from "@/mixins/DateTime.js";
 
 export default {
   components: {
     StatsCard,
     ChartCard
   },
+  mixins: [mixin],
   data() {
     return {
       // Data flag
       hasData: false,
+      // Device not sending
+      deviceNotSending: false,
       // Device info
       device: {
         id: null,
-        macAddress: "",
+        number: "",
         name: "",
         location: ""
       },
       // View mesh status
-      status: "Connected",
-      // View temperature
-      temperature: null,
+      mesh: true,
+      // View temperatures
+      t0: null,
+      t1: null,
       updated: null,
       // View chart
       chartData: [],
       temperatureChart: {
         data: {
           labels: [],
-          series: [[]]
+          series: [[], []] // Two temperatures on the same chart
         },
         options: {
           lineSmooth: this.$Chartist.Interpolation.cardinal({
@@ -171,48 +200,60 @@ export default {
       this.device = response.data;
 
       // Get data
-      DataService.get(this.device.macAddress).then(response => {
+      DataService.get(this.device.number).then(response => {
         // Confirm there is data to display
         if (response.data.length > 0) {
           this.hasData = true;
 
-          // Updated time
-          this.updatedAt = this.formatDate(response.data[0].createdAt);
+          // Get the most recent data
+          let lastData = response.data[0];
+
+          // If last update time is older than 30 minutes show a warning (device might be Off)
+          this.deviceNotSending = this.isOldDate(lastData.createdAt);
+
+          // Updated time (last value is the most recent)
+          this.updatedAt = this.formatDate(lastData.createdAt);
 
           // Mesh status
-          //this.status = response.data[0].data.status;
-          //TENTATIVE: Using temperature to test both connected and disconnected messages
-          this.status =
-            response.data[0].data.t > 20 ? "Connected" : "Disconnected";
+          this.mesh = lastData.data.m === "1" ? true : false;
 
           // Temperature
-          this.temperature = response.data[0].data.t; // In first position the most recent
+          this.t0 = lastData.data.t0;
+          this.t1 = lastData.data.t1;
 
           // LED
-          this.led = response.data[0].data.l === "1" ? true : false;
+          this.led = lastData.data.l === "1" ? true : false;
 
           // Temperature chart
-          this.chartData = response.data.reverse();
+          this.chartData = response.data.reverse(); // Last value is the most recent
           this.genChart();
 
           // Socket to update device data from api-engine
-          console.log("Socket subscription to: " + this.device.macAddress);
+          console.log("Socket subscription to: " + this.device.number);
           this.socket = new SocketService();
-          this.socket.getData(this.device.macAddress, this.updateData);
+          this.socket.connect();
+          this.socket.getData(this.device.number, this.updateData);
         }
       });
     });
   },
+  destroyed() {
+    this.socket.disconnect();
+  },
   methods: {
     updateData(socketData) {
       this.updatedAt = this.formatDate(socketData.createdAt);
-      this.temperature = socketData.data.t;
+      this.t0 = socketData.data.t0;
+      this.t1 = socketData.data.t1;
+      this.mesh = socketData.data.m === "1" ? true : false;
       this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
       this.genChart();
       // Chart needs to be updated because it is not readtive by default
       this.updateChart = true; // This will inform the child that chart needs to be updated
+      // Device is sending
+      this.deviceNotSending = false;
     },
     genChart() {
       // Most recent data should be the last in the chart
@@ -223,50 +264,26 @@ export default {
             this.chartData[i].createdAt
           );
         }
-        this.temperatureChart.data.series[0][i] = this.chartData[i].data.t;
+        this.temperatureChart.data.series[0][i] = this.chartData[i].data.t0;
+        this.temperatureChart.data.series[1][i] = this.chartData[i].data.t1;
       }
     },
     chartUpdated() {
       this.updateChart = false;
     },
-    formatDate(originalTime) {
-      var d = new Date(originalTime);
-      var dateString =
-        d.getDate() +
-        "-" +
-        (d.getMonth() + 1) +
-        "-" +
-        d.getFullYear() +
-        " " +
-        ("0" + d.getHours()).slice(-2) +
-        ":" +
-        ("0" + d.getMinutes()).slice(-2);
-      return dateString;
-    },
-    formatTime(originalTime) {
-      var d = new Date(originalTime);
-      var dateString =
-        ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-      return dateString;
-    },
     toggleLED() {
-      // To toggle the LED we resend the last received data
+      // To toggle the LED we resend the last received data to force an MQTT message
       let data = {
-        macAddress: this.device.macAddress,
+        number: this.device.number,
         data: {
-          t: this.chartData[this.chartData.length - 1].data.t,
-          h: this.chartData[this.chartData.length - 1].data.h,
+          t0: this.chartData[this.chartData.length - 1].data.t0,
+          t1: this.chartData[this.chartData.length - 1].data.t1,
+          m: this.mesh ? "1" : "0",
           l: this.led ? "1" : "0"
         },
         topic: "led"
       };
-      DataService.saveData(data)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      DataService.saveData(data);
     }
   },
   watch: {
@@ -293,5 +310,9 @@ export default {
   transform-origin: 100% 0;
   transform: translate(-100%) rotate(-45deg);
   white-space: nowrap;
+}
+
+.md-icon.warning {
+  color: orange !important;
 }
 </style>

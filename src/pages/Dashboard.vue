@@ -23,42 +23,72 @@
 <script>
 import { DeviceTable } from "@/components";
 import DeviceService from "@/services/DeviceService";
+import DataService from "@/services/DataService";
+import { SocketService } from "@/services/SocketService.js";
+import mixin from "@/mixins/DateTime.js";
 
 export default {
   components: {
     DeviceTable
   },
+  mixins: [mixin],
   data() {
     return {
-      devices: []
+      devices: [],
+      socket: undefined
     };
   },
   created() {
-    DeviceService.get().then(response => {
-      this.devices = [];
-      for (var i = 0, len = response.data.length; i < len; i++) {
-        let device = {};
-        device.id = response.data[i]._id; // Database internal id
-        device.macAddress = response.data[i].macAddress;
-        device.name = response.data[i].name;
-        device.location = "Not specified";
-        let date = response.data[i].updatedAt;
-        device.updated = date.substr(0, 10) + " " + date.substr(11, 8);
-        device.status = "ok"; // Otherwise "fail"
-        this.devices.push(device);
-      }
-    });
+    return DeviceService.get()
+      .then(response => {
+        this.devices = [];
+        for (var i = 0, len = response.data.length; i < len; i++) {
+          let device = { info: {}, data: {} };
+          device.info.id = response.data[i]._id; // Database internal id
+          device.info.number = response.data[i].number;
+          device.info.name = response.data[i].name;
+          device.info.location = response.data[i].location;
+          device.data.updated = null; // To be read from the device
+          device.data.mesh = null;
+          this.devices.push(device);
+        }
+      })
+      .then(() => {
+        // Create socket and subscribe to each device to receive the updated status
+        this.socket = new SocketService();
+        this.socket.connect();
+        // Get mesh status of each device
+        for (var i = 0; i < this.devices.length; i++) {
+          this.getMeshStatus(i);
+          console.log("Socket subscription to: " + this.devices[i].info.number);
+          this.socket.getData(this.devices[i].info.number, socketData => {
+            let device = this.devices.find(
+              obj => obj.info.number === socketData.number
+            );
+            let deviceIndex = this.devices.indexOf(device);
+            // Updated
+            this.devices[deviceIndex].data.updated = this.formatDate(
+              socketData.createdAt
+            );
+            // Mesh status
+            this.devices[deviceIndex].data.mesh = socketData.data.m;
+          });
+        }
+      });
+  },
+  destroyed() {
+    this.socket.disconnect();
   },
   methods: {
     deleteDevice: function(id) {
       // Delete/unregister the device
       for (var i = 0; i < this.devices.length; i++) {
-        if (this.devices[i].id === id) {
+        if (this.devices[i].info.id === id) {
           // Call to API to delete the device
-          DeviceService.deleteDevice(this.devices[i].id).then(response => {
+          DeviceService.deleteDevice(this.devices[i].info.id).then(response => {
             if (response.status == 204) {
               this.$notify({
-                message: "Device " + this.devices[i].macAddress + " deleted",
+                message: "Device " + this.devices[i].info.number + " deleted",
                 icon: "add_alert",
                 horizontalAlign: "right",
                 verticalAlign: "bottom",
@@ -70,6 +100,28 @@ export default {
           break;
         }
       }
+    },
+    getMeshStatus: function(deviceIndex) {
+      // Get the mesh status for the specified device
+      DataService.get(this.devices[deviceIndex].info.number).then(response => {
+        // Confirm there is data to display
+        if (response.data.length > 0) {
+          // Get the most recent data
+          let lastData = response.data[0];
+          // If last update time is older than 30 minutes show a warning (device might be Off)
+          this.devices[deviceIndex].data.deviceNotSending = this.isOldDate(
+            lastData.createdAt
+          )
+            ? "1"
+            : "0";
+          // Updated
+          this.devices[deviceIndex].data.updated = this.formatDate(
+            lastData.createdAt
+          );
+          // Mesh status
+          this.devices[deviceIndex].data.mesh = lastData.data.m;
+        }
+      });
     }
   }
 };
