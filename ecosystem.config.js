@@ -7,7 +7,7 @@ module.exports = {
       repo : 'git@github.com:desplega/dashboard.git',
       path : '/var/www/dashboard-test',
       "pre-deploy-local": "rm -rf dist",
-      'post-deploy' : 'npm run build',
+      'post-deploy' : 'npm install && npm run build',
       "env"  : {
         "NODE_ENV": "production"
       }
