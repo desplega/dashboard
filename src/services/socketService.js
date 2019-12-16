@@ -11,15 +11,15 @@ export class SocketService {
   }
   connect() {
     this.socket.on("connect", () => {
-      console.log("Socket connected");
+      //console.log("Socket connected");
     });
     this.socket.on("disconnect", () => {
-      console.log("Socket disconnected");
+      //console.log("Socket disconnected");
     });
   }
   getData(number, callback) {
     this.socket.on("data:save:" + number, data => {
-      console.log("Socket data received from: " + number);
+      //console.log("Socket data received from: " + number);
       callback(data);
     });
   }

@@ -55,7 +55,7 @@ store
   })
   .catch(err => {
     // Invalid token
-    console.log(err);
+    //console.log(err);
     router.push("/login");
   });
 
@@ -76,7 +76,7 @@ new Vue({
         store.dispatch("logout").then(() => {
           router.push("/login");
         });
-        console.log(err);
+        //console.log(err);
       }
     });
   }

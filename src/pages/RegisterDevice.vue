@@ -33,7 +33,7 @@ export default {
       }
     },
     saveDevice(device) {
-      console.log(device);
+      //console.log(device);
       // Check whether this device is already added to device list
       DeviceService.get().then(devices => {
         if (this.findDeviceInList(device, devices.data)) {

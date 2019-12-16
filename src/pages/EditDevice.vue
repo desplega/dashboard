@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     saveDevice(device) {
-      console.log(device);
+      //console.log(device);
       DeviceService.updateDevice(this.$route.params.id, device);
       this.$router.push("/dashboard");
     }
