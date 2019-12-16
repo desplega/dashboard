@@ -18,7 +18,7 @@
 
 <script>
 import { EditRegisterDeviceForm } from "@/pages";
-import DeviceService from "@/services/DeviceService.js";
+import DeviceService from "@/services/deviceService.js";
 
 export default {
   components: {

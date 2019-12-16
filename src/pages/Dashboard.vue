@@ -22,10 +22,10 @@
 
 <script>
 import { DeviceTable } from "@/components";
-import DeviceService from "@/services/DeviceService";
-import DataService from "@/services/DataService";
-import { SocketService } from "@/services/SocketService.js";
-import mixin from "@/mixins/DateTime.js";
+import DeviceService from "@/services/deviceService";
+import DataService from "@/services/dataService";
+import { SocketService } from "@/services/socketService.js";
+import mixin from "@/mixins/dateTime.js";
 
 export default {
   components: {

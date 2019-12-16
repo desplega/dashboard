@@ -131,10 +131,10 @@
 <script>
 import { StatsCard } from "@/components";
 import { ChartCard } from "@/components";
-import DeviceService from "@/services/DeviceService.js";
-import DataService from "@/services/DataService.js";
-import { SocketService } from "@/services/SocketService.js";
-import mixin from "@/mixins/DateTime.js";
+import DeviceService from "@/services/deviceService.js";
+import DataService from "@/services/dataService.js";
+import { SocketService } from "@/services/socketService.js";
+import mixin from "@/mixins/dateTime.js";
 
 export default {
   components: {
