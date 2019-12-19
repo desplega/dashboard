@@ -57,7 +57,8 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          //console.log(err);
+          if (process.env.NODE_ENV != "production")
+            console.log(err);
           // Show message
           let msg = "Email and password don't match...";
           if (email === "" || password === "")

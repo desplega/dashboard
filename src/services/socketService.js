@@ -11,15 +11,18 @@ export class SocketService {
   }
   connect() {
     this.socket.on("connect", () => {
-      //console.log("Socket connected");
+      if (process.env.NODE_ENV != "production")
+        console.log("Socket connected");
     });
     this.socket.on("disconnect", () => {
-      //console.log("Socket disconnected");
+      if (process.env.NODE_ENV != "production")
+        console.log("Socket disconnected");
     });
   }
   getData(number, callback) {
     this.socket.on("data:save:" + number, data => {
-      //console.log("Socket data received from: " + number);
+      if (process.env.NODE_ENV != "production")
+        console.log("Socket data received from: " + number);
       callback(data);
     });
   }

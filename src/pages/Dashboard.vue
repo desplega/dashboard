@@ -60,7 +60,8 @@ export default {
         // Get mesh status of each device
         for (var i = 0; i < this.devices.length; i++) {
           this.getMeshStatus(i);
-          //console.log("Socket subscription to: " + this.devices[i].info.number);
+          if (process.env.NODE_ENV != "production")
+            console.log("Socket subscription to: " + this.devices[i].info.number);
           this.socket.getData(this.devices[i].info.number, socketData => {
             let device = this.devices.find(
               obj => obj.info.number === socketData.number

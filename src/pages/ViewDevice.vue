@@ -229,7 +229,8 @@ export default {
           this.genChart();
 
           // Socket to update device data from api-engine
-          //console.log("Socket subscription to: " + this.device.number);
+          if (process.env.NODE_ENV != "production")
+            console.log("Socket subscription to: " + this.device.number);
           this.socket = new SocketService();
           this.socket.connect();
           this.socket.getData(this.device.number, this.updateData);
