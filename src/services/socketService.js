@@ -11,8 +11,7 @@ export class SocketService {
   }
   connect() {
     this.socket.on("connect", () => {
-      if (process.env.NODE_ENV != "production")
-        console.log("Socket connected");
+      if (process.env.NODE_ENV != "production") console.log("Socket connected");
     });
     this.socket.on("disconnect", () => {
       if (process.env.NODE_ENV != "production")

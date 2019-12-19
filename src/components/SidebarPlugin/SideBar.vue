@@ -47,7 +47,10 @@ export default {
   props: {
     title: {
       type: String,
-      default: process.env.NODE_ENV === "production" ? "desplega IoT" : "desplega IoT TEST"
+      default:
+        process.env.NODE_ENV === "production"
+          ? "desplega IoT"
+          : "desplega IoT TEST"
     },
     backgroundImage: {
       type: String,

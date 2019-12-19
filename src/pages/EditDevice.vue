@@ -41,8 +41,7 @@ export default {
   },
   methods: {
     saveDevice(device) {
-      if (process.env.NODE_ENV != "production")
-        console.log(device);
+      if (process.env.NODE_ENV != "production") console.log(device);
       DeviceService.updateDevice(this.$route.params.id, device);
       this.$router.push("/dashboard");
     }
