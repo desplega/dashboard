@@ -75,6 +75,8 @@ export default {
             );
             // Mesh status
             this.devices[deviceIndex].data.mesh = socketData.data.m;
+            // Device is sending
+            this.devices[deviceIndex].data.deviceNotSending = false;
           });
         }
       });
@@ -111,7 +113,7 @@ export default {
         if (response.data.length > 0) {
           // Get the most recent data
           let lastData = response.data[0];
-          // If last update time is older than 30 minutes show a warning (device might be Off)
+          // If last update time is older than some minutes show a warning (device might be Off)
           this.devices[deviceIndex].data.deviceNotSending = this.isOldDate(
             lastData.createdAt
           )
