@@ -14,7 +14,11 @@
           >
         </md-table-cell>
         <md-table-cell md-label="Mesh status">
-          <md-icon v-if="item.data.mesh === '1'" :class="getClass(item.data.mesh)">check_circle</md-icon>
+          <md-icon
+            v-if="item.data.mesh === '1'"
+            :class="getClass(item.data.mesh)"
+            >check_circle</md-icon
+          >
           <md-icon v-else :class="getClass(item.data.mesh)">cancel</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
