@@ -20,6 +20,7 @@
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
+
 .dropdown-menu {
     border: 0;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
@@ -87,9 +88,7 @@
             }
         }
     }
-
 }
-
 
 .navbar-nav > li > .dropdown-menu,
 .dropdown .dropdown-menu,
@@ -127,7 +126,6 @@
 }
 
 .md-ripple{
-  -webkit-mask-image: none;
   overflow: visible;
 
   > span{
