@@ -49,7 +49,7 @@ export default {
           device.info.name = response.data[i].name;
           device.info.location = response.data[i].location;
           device.data.updated = null; // To be read from the device
-          device.data.mesh = null;
+          device.data.harp = null;
           this.devices.push(device);
         }
       })
@@ -57,9 +57,9 @@ export default {
         // Create socket and subscribe to each device to receive the updated status
         this.socket = new SocketService();
         this.socket.connect();
-        // Get mesh status of each device
+        // Get harp status of each device
         for (var i = 0; i < this.devices.length; i++) {
-          this.getMeshStatus(i);
+          this.getHarpStatus(i);
           if (process.env.NODE_ENV != "production")
             console.log(
               "Socket subscription to: " + this.devices[i].info.number
@@ -73,8 +73,8 @@ export default {
             this.devices[deviceIndex].data.updated = this.formatDate(
               socketData.createdAt
             );
-            // Mesh status
-            this.devices[deviceIndex].data.mesh = socketData.data.m;
+            // Harp status
+            this.devices[deviceIndex].data.harp = socketData.data.h;
             // Device is sending
             this.devices[deviceIndex].data.deviceNotSending = false;
           });
@@ -106,8 +106,8 @@ export default {
         }
       }
     },
-    getMeshStatus: function(deviceIndex) {
-      // Get the mesh status for the specified device
+    getHarpStatus: function(deviceIndex) {
+      // Get the harp status for the specified device
       DataService.get(this.devices[deviceIndex].info.number).then(response => {
         // Confirm there is data to display
         if (response.data.length > 0) {
@@ -123,8 +123,8 @@ export default {
           this.devices[deviceIndex].data.updated = this.formatDate(
             lastData.createdAt
           );
-          // Mesh status
-          this.devices[deviceIndex].data.mesh = lastData.data.m;
+          // Harp status
+          this.devices[deviceIndex].data.harp = lastData.data.h;
         }
       });
     }

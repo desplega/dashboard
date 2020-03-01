@@ -33,8 +33,8 @@
             <md-icon>border_clear</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Mesh Status</p>
-            <h3 class="title">{{ mesh ? "Connected" : "Not connected" }}</h3>
+            <p class="category">Harp Status</p>
+            <h3 class="title">{{ harp ? "Connected" : "Not connected" }}</h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -155,8 +155,8 @@ export default {
         name: "",
         location: ""
       },
-      // View mesh status
-      mesh: true,
+      // View harp status
+      harp: true,
       // View temperatures
       t0: null,
       t1: null,
@@ -214,8 +214,8 @@ export default {
           // Updated time (last value is the most recent)
           this.updatedAt = this.formatDate(lastData.createdAt);
 
-          // Mesh status
-          this.mesh = lastData.data.m === "1" ? true : false;
+          // Harp status
+          this.harp = lastData.data.h === "1" ? true : false;
 
           // Temperature
           this.t0 = lastData.data.t0;
@@ -246,7 +246,7 @@ export default {
       this.updatedAt = this.formatDate(socketData.createdAt);
       this.t0 = socketData.data.t0;
       this.t1 = socketData.data.t1;
-      this.mesh = socketData.data.m === "1" ? true : false;
+      this.harp = socketData.data.h === "1" ? true : false;
       this.led = socketData.data.l === "1" ? true : false;
       this.chartData.splice(0, 1); // Remove the oldest record, the first one
       this.chartData.push(socketData); // Add the new one
@@ -279,7 +279,7 @@ export default {
         data: {
           t0: this.chartData[this.chartData.length - 1].data.t0,
           t1: this.chartData[this.chartData.length - 1].data.t1,
-          m: this.mesh ? "1" : "0",
+          h: this.harp ? "1" : "0",
           l: this.led ? "1" : "0"
         },
         topic: "led"

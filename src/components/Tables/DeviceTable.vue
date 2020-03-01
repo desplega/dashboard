@@ -13,13 +13,13 @@
             >warning</md-icon
           >
         </md-table-cell>
-        <md-table-cell md-label="Mesh status">
+        <md-table-cell md-label="Harp status">
           <md-icon
-            v-if="item.data.mesh === '1'"
-            :class="getClass(item.data.mesh)"
+            v-if="item.data.harp === '1'"
+            :class="getClass(item.data.harp)"
             >check_circle</md-icon
           >
-          <md-icon v-else :class="getClass(item.data.mesh)">cancel</md-icon>
+          <md-icon v-else :class="getClass(item.data.harp)">cancel</md-icon>
         </md-table-cell>
         <md-table-cell md-label="Actions" class="text-right">
           <md-button
@@ -99,8 +99,8 @@ export default {
     };
   },
   methods: {
-    getClass: function(mesh) {
-      return mesh === "1" ? "mesh-green" : "mesh-red";
+    getClass: function(harp) {
+      return harp === "1" ? "harp-green" : "harp-red";
     },
     viewDevice: function(id) {
       this.$router.push({ name: "View Device", params: { id } });
@@ -124,12 +124,12 @@ export default {
 </script>
 
 <style lang="css">
-.md-icon.mesh-green {
+.md-icon.harp-green {
   color: green !important;
   padding-left: 50px;
 }
 
-.md-icon.mesh-red {
+.md-icon.harp-red {
   color: red !important;
   padding-left: 50px;
 }
