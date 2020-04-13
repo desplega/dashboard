@@ -18,6 +18,7 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
+import i18n from "./i18n";
 import Axios from "axios";
 
 // Make API calls available from any component through this.$http
@@ -61,6 +62,7 @@ store
 
 /* eslint-disable no-new */
 new Vue({
+  i18n,
   el: "#app",
   render: h => h(App),
   router,

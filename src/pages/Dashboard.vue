@@ -5,7 +5,7 @@
         <md-card>
           <md-card-header data-background-color="green">
             <h4 class="title">Device Status</h4>
-            <p class="category">List of available connected devices</p>
+            <p class="category">{{ $t("dashboard-list-of-devices") }}</p>
           </md-card-header>
           <md-card-content>
             <device-table
