@@ -3,7 +3,7 @@
     <li class="dropdown-item">
       <a href="#/user" class="dropdown-toggle" data-toggle="dropdown">
         <i class="material-icons">person</i>
-        <p>User Profile</p>
+        <p>{{ $t("mobile-menu-user-profile") }}</p>
       </a>
     </li>
     <li class="dropdown-item">
@@ -14,7 +14,7 @@
         data-toggle="dropdown"
       >
         <i class="material-icons">logout</i>
-        <p>Logout</p>
+        <p>{{ $t("mobile-menu-logout") }}</p>
       </a>
     </li>
   </ul>

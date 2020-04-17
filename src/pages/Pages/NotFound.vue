@@ -6,7 +6,7 @@
       <not-found-card header-color="red">
         <h1 slot="title" class="title">404</h1>
         <p slot="description" class="description">
-          We're sorry, we couldn't find the page you requested.
+          {{ $t("not-found-sorry") }}
         </p>
       </not-found-card>
     </div>

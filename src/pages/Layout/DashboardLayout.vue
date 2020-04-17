@@ -6,11 +6,11 @@
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link to="/dashboard">
         <md-icon>dashboard</md-icon>
-        <p>Dashboard</p>
+        <p>{{ $t("dashboard-layout-dashboard") }}</p>
       </sidebar-link>
       <sidebar-link to="/register-device">
         <md-icon>add_circle_outline</md-icon>
-        <p>Register device</p>
+        <p>{{ $t("dashboard-layout-register-device") }}</p>
       </sidebar-link>
     </side-bar>
 

@@ -4,23 +4,23 @@
       <div class="md-layout-item md-medium-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Device number: {{ device.number }}</h4>
-            <p class="category">Information on the device</p>
+            <h4 class="title">{{ $t("view-device-device-number") }} {{ device.number }}</h4>
+            <p class="category">{{ $t("view-device-information-on-device") }}</p>
           </md-card-header>
           <md-card-content>
             <p>
-              <span class="card-title">Name:</span>
+              <span class="card-title">{{ $t("view-device-name") }}</span>
               {{ device.name }}
             </p>
             <p>
-              <span class="card-title">Location:</span>
+              <span class="card-title">{{ $t("view-device-location") }}</span>
               {{ device.location }}
             </p>
             <p v-if="!hasData" class="no-data">
-              <span>No data yet. Check device!</span>
+              <span>{{ $t("view-device-no-data-yet") }}</span>
             </p>
             <p v-if="deviceNotSending" class="no-data">
-              <span>Device not sending. Check device!</span>
+              <span>{{ $t("view-device-device-not-sending") }}</span>
               <md-icon class="warning">warning</md-icon>
             </p>
           </md-card-content>
@@ -33,13 +33,13 @@
             <md-icon>border_clear</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Harp Status</p>
-            <h3 class="title">{{ harp ? "Connected" : "Not connected" }}</h3>
+            <p class="category">{{ $t("view-device-harp-status") }}</p>
+            <h3 class="title">{{ harp ? $t("view-device-harp-connected") : $t("view-device-harp-not-connected") }}</h3>
           </template>
           <template slot="footer">
             <div class="stats">
               <md-icon>update</md-icon>
-              Updated at {{ updatedAt }}
+              {{ $t("view-device-updated-at") }} {{ updatedAt }}
             </div>
           </template>
         </stats-card>
@@ -51,13 +51,13 @@
             <md-icon>wb_sunny</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Temperature (external)</p>
+            <p class="category">{{ $t("view-device-temperature-external") }}</p>
             <h3 class="title">{{ t0 }} C</h3>
           </template>
           <template slot="footer">
             <div class="stats">
               <md-icon>update</md-icon>
-              Updated at {{ updatedAt }}
+              {{ $t("view-device-updated-at") }} {{ updatedAt }}
             </div>
           </template>
         </stats-card>
@@ -69,13 +69,13 @@
             <md-icon>home</md-icon>
           </template>
           <template slot="content">
-            <p class="category">Temperature (internal)</p>
+            <p class="category">{{ $t("view-device-temperature-internal") }}</p>
             <h3 class="title">{{ t1 }} C</h3>
           </template>
           <template slot="footer">
             <div class="stats">
               <md-icon>update</md-icon>
-              Updated at {{ updatedAt }}
+              {{ $t("view-device-updated-at") }} {{ updatedAt }}
             </div>
           </template>
         </stats-card>
@@ -97,8 +97,8 @@
               <md-icon>timeline</md-icon>
             </div>
             <h4 class="title">
-              Temperatures (external/internal)
-              <small>- Updated at {{ updatedAt }}</small>
+              {{ $t("view-device-temperatures") }}
+              <small>- {{ $t("view-device-updated-at") }} {{ updatedAt }}</small>
             </h4>
           </template>
         </chart-card>

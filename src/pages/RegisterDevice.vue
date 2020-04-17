@@ -6,9 +6,9 @@
           data-background-color="blue"
           @saveDevice="saveDevice($event)"
         >
-          <h4 slot="title" class="title">Register Device</h4>
+          <h4 slot="title" class="title">{{ $t("register-device-register-device") }}</h4>
           <p slot="category" class="category">
-            Add your new device information
+            {{ $t("register-device-add-device-information") }}
           </p>
         </edit-register-device-form>
       </div>
@@ -39,7 +39,7 @@ export default {
         if (this.findDeviceInList(device, devices.data)) {
           // The device is already added in the device list
           this.$notify({
-            message: "This device is already registered",
+            message: this.$i18n.t("register-device-already-registered"),
             icon: "add_alert",
             horizontalAlign: "right",
             verticalAlign: "bottom",

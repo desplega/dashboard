@@ -3,7 +3,7 @@
     <md-toolbar md-elevation="0" class="md-transparent md-toolbar-absolute">
       <div class="md-toolbar-row md-offset">
         <div class="md-toolbar-section-start">
-          <h3 class="md-title">Beehive Dashboard</h3>
+          <h3 class="md-title">{{ $t("auth-layout-beehive-dashboard") }}</h3>
         </div>
       </div>
     </md-toolbar>
@@ -28,7 +28,7 @@
             <div class="copyright text-center">
               &copy; {{ new Date().getFullYear() }}
               <a href="https://www.desplega.com" target="_blank">desplega IoT</a
-              >, made with
+              >, {{ $t("auth-layout-made-with") }}
               <i class="fa fa-heart heart"></i>
             </div>
           </div>

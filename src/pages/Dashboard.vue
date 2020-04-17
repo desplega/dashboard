@@ -4,7 +4,7 @@
       <div class="md-layout-item md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Device Status</h4>
+            <h4 class="title">{{ $t("dashboard-device-status") }}</h4>
             <p class="category">{{ $t("dashboard-list-of-devices") }}</p>
           </md-card-header>
           <md-card-content>

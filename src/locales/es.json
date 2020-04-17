@@ -1,3 +1,74 @@
 {
-  "dashboard-list-of-devices": "Lista de los dispositivos conectados disponibles"
+  "auth-layout-beehive-dashboard": "Monitorización de colmenas",
+  "auth-layout-made-with": "hecho con",
+
+  "login-login": "Registro",
+  "login-welcome": "¡Bienvenid@!",
+  "login-email": "Correo electrónico...",
+  "login-password": "Contraseña...",
+  "login-lets-go": "¡Adelante!",
+
+  "not-found-sorry": "Lo sentimos, no hemos encontrado la página que nos indicas!",
+
+  "edit-profile-form-edit-profile": "Edición del perfil de usuario",
+  "edit-profile-form-complete-profile": "Completa tu perfil de usuario",
+  "edit-profile-form-user-name": "Nombre de usuario",
+  "edit-profile-form-email-address": "Correo electrónico",
+  "edit-profile-form-first-name": "Nombre",
+  "edit-profile-form-last-name": "Apellidos",
+  "edit-profile-form-password": "Contraseña",
+  "edit-profile-form-update-profile": "Actualiza el perfil",
+  
+  "dashboard-layout-dashboard": "Panel de dispositivos",
+  "dashboard-layout-register-device": "Registro de dispositivos",
+
+  "mobile-menu-user-profile": "Perfil de usuario",
+  "mobile-menu-logout": "Salir",
+
+  "top-navbar-notifications": "Notificaciones",
+  "top-navbar-user-profile": "Perfil de usuario",
+  "top-navbar-logout": "Salir",
+
+  "dashboard-device-status": "Estado de los dispositivos",
+  "dashboard-list-of-devices": "Lista de los dispositivos conectados disponibles",
+
+  "table-name": "Nombre",
+  "table-number": "Número",
+  "table-location": "Localización",
+  "table-updated": "Última actualización",
+  "table-harp-status": "Estado del arpa",
+  "table-actions": "Acciones",
+  "table-action-view-device": "Ver el dispositivo",
+  "table-action-edit-device": "Editar el dispositivo",
+  "table-action-remove-device": "Eliminar el dispositivo",
+  "table-delete-confirm-1": "¿Seguro que quieres eliminar de la lista el dispositivo ",
+  "table-delete-confirm-2": " ?",
+  "table-delete-confirm-cancel": "Cancelar",
+  "table-delete-confirm-delete": "Eliminar",
+
+  "register-device-register-device": "Registro de dispositivo",
+  "register-device-add-device-information": "Entra los datos de tu dispositivo",
+  "register-device-already-registered": "Este dispositivo ya está registrado!",
+
+  "edit-register-device-name": "Nombre",
+  "edit-register-device-number": "Número",
+  "edit-register-device-location": "Localización",
+  "edit-register-device-save": "Guardar",
+  
+  "edit-device-edit-device": "Edición de dispositivo",
+  "edit-device-edit-device-information": "Aquí puedes editar los datos de tu dispositivo",
+
+  "view-device-device-number": "Número de dispositivo:",
+  "view-device-information-on-device": "Información sobre el dispositivo",
+  "view-device-name": "Nombre:",
+  "view-device-location": "Localización:",
+  "view-device-no-data-yet": "No hay datos todavía. Comprueba tu dispositivo!",
+  "view-device-device-not-sending": "El dispositivo no envía datod. Comprueba tu dispositivo!",
+  "view-device-harp-status": "Estado del arpa",
+  "view-device-harp-connected": "Conectada",
+  "view-device-harp-not-connected": "No conectada",
+  "view-device-updated-at": "Última actualización",
+  "view-device-temperature-external": "Temperatura (exterior)",
+  "view-device-temperature-internal": "Temperatura (interior)",
+  "view-device-temperatures": "Temperaturas (exterior/interior)"
 }

@@ -2,18 +2,18 @@
   <div>
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Name">{{ item.info.name }}</md-table-cell>
-        <md-table-cell md-label="Number">{{ item.info.number }}</md-table-cell>
-        <md-table-cell md-label="Location">
+        <md-table-cell :md-label="$t('table-name')">{{ item.info.name }}</md-table-cell>
+        <md-table-cell :md-label="$t('table-number')">{{ item.info.number }}</md-table-cell>
+        <md-table-cell :md-label="$t('table-location')">
           {{ item.info.location }}
         </md-table-cell>
-        <md-table-cell md-label="Updated">
+        <md-table-cell :md-label="$t('table-updated')">
           {{ item.data.updated }}
           <md-icon v-if="item.data.deviceNotSending === '1'" class="warning"
             >warning</md-icon
           >
         </md-table-cell>
-        <md-table-cell md-label="Harp status">
+        <md-table-cell :md-label="$t('table-harp-status')">
           <md-icon
             v-if="item.data.harp === '1'"
             :class="getClass(item.data.harp)"
@@ -21,24 +21,24 @@
           >
           <md-icon v-else :class="getClass(item.data.harp)">cancel</md-icon>
         </md-table-cell>
-        <md-table-cell md-label="Actions" class="text-right">
+        <md-table-cell :md-label="$t('table-actions')" class="text-right">
           <md-button
             class="md-just-icon md-simple"
             @click="viewDevice(item.info.id)"
           >
             <md-icon>art_track</md-icon>
-            <md-tooltip md-direction="bottom">View device</md-tooltip>
+            <md-tooltip md-direction="bottom">{{ $t("table-action-view-device") }}</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
             @click="editDevice(item.info.id)"
           >
             <md-icon>edit</md-icon>
-            <md-tooltip md-direction="bottom">Edit device</md-tooltip>
+            <md-tooltip md-direction="bottom">{{ $t("table-action-edit-device") }}</md-tooltip>
           </md-button>
           <md-button class="md-just-icon md-simple" @click="deleteDevice(item)">
             <md-icon>delete</md-icon>
-            <md-tooltip md-direction="bottom">Remove device</md-tooltip>
+            <md-tooltip md-direction="bottom">{{ $t("table-action-remove-device") }}</md-tooltip>
           </md-button>
         </md-table-cell>
       </md-table-row>
@@ -56,17 +56,17 @@
 
         <template slot="body">
           <p>
-            Are you sure you want to delete the
-            {{ this.device.info.number }} device?
+            {{ $t('table-delete-confirm-1')}}
+            {{ this.device.info.number }} {{ $t('table-delete-confirm-2')}}
           </p>
         </template>
 
         <template slot="footer">
           <md-button class="md-simple" @click="alertModalHide"
-            >Cancel</md-button
+            >{{ $t('table-delete-confirm-cancel')}}</md-button
           >
           <md-button class="md-success md-simple" @click="confirmDeleteDevice"
-            >Delete</md-button
+            >{{ $t('table-delete-confirm-delete')}}</md-button
           >
         </template>
       </modal>

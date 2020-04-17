@@ -4,11 +4,11 @@
       class="md-layout-item md-size-33 md-medium-size-50 md-small-size-70 md-xsmall-size-100"
     >
       <login-card header-color="green">
-        <h4 slot="title" class="title">Log in</h4>
-        <p slot="description" class="description">Welcome!</p>
+        <h4 slot="title" class="title">{{ $t("login-login") }}</h4>
+        <p slot="description" class="description">{{ $t("login-welcome") }}</p>
         <md-field slot="inputs">
           <md-icon>email</md-icon>
-          <label>Email...</label>
+          <label>{{ $t("login-email") }}</label>
           <md-input
             v-model="email"
             type="email"
@@ -17,7 +17,7 @@
         </md-field>
         <md-field slot="inputs">
           <md-icon>lock_outline</md-icon>
-          <label>Password...</label>
+          <label>{{ $t("login-password") }}</label>
           <md-input
             type="password"
             v-model="password"
@@ -28,7 +28,7 @@
           slot="footer"
           class="md-simple md-success md-lg"
           @click="login()"
-          >Let's Go!</md-button
+          >{{ $t("login-lets-go") }}</md-button
         >
       </login-card>
     </div>

@@ -2,7 +2,7 @@
   <md-toolbar md-elevation="0" class="md-transparent">
     <div class="md-toolbar-row">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">{{ $route.name }}</h3>
+        <h3 class="md-title">{{ $t('auth-layout-beehive-dashboard') }}</h3>
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -30,14 +30,14 @@
                       data-toggle="dropdown"
                     >
                       <md-icon>person</md-icon>
-                      <p class="hidden-lg hidden-md">Notifications</p>
+                      <p class="hidden-lg hidden-md">{{ $t("top-navbar-notifications") }}</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right">
                       <li>
-                        <a href="#/user">User profile</a>
+                        <a href="#/user">{{ $t("top-navbar-user-profile") }}</a>
                       </li>
                       <li>
-                        <a href="#" @click="logout">Logout</a>
+                        <a href="#" @click="logout">{{ $t("top-navbar-logout") }}</a>
                       </li>
                     </ul>
                   </drop-down>

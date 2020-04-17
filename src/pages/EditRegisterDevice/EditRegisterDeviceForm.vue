@@ -15,7 +15,7 @@
                 { 'md-valid': !errors.has('name') && touched.name }
               ]"
             >
-              <label>Name</label>
+              <label>{{ $t("edit-register-device-name") }}</label>
               <md-input
                 v-model="name"
                 data-vv-name="name"
@@ -48,7 +48,7 @@
                 }
               ]"
             >
-              <label>number</label>
+              <label>{{ $t("edit-register-device-number") }}</label>
               <md-input
                 v-model="number"
                 data-vv-name="number"
@@ -81,7 +81,7 @@
                 { 'md-valid': !errors.has('location') && touched.location }
               ]"
             >
-              <label>Location</label>
+              <label>{{ $t("edit-register-device-location") }}</label>
               <md-input
                 v-model="location"
                 data-vv-name="location"
@@ -112,7 +112,7 @@
           @click.native.prevent="validate"
           class="md-info"
         >
-          Save
+          {{ $t("edit-register-device-save") }}
           <md-icon>keyboard_arrow_right</md-icon>
         </md-button>
       </md-card-actions>

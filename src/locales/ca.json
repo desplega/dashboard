@@ -1,3 +1,74 @@
 {
-  "dashboard-list-of-devices": "Llista dels dispositius connectats disponibles"
+  "auth-layout-beehive-dashboard": "Monitorització de ruscs",
+  "auth-layout-made-with": "fet amb",
+
+  "login-login": "Registre",
+  "login-welcome": "Benvigut, benvinguda!",
+  "login-email": "Correu electrònic...",
+  "login-password": "Contrasenya...",
+  "login-lets-go": "Som-hi!",
+
+  "not-found-sorry": "Ho setim, no hem trobat la pàgina que ens indiques!",
+
+  "edit-profile-form-edit-profile": "Edició del perfil d'usuari",
+  "edit-profile-form-complete-profile": "Completa el teu perfil d'usuari",
+  "edit-profile-form-user-name": "Nom d'usuari",
+  "edit-profile-form-email-address": "Correu electrònic",
+  "edit-profile-form-first-name": "Nom",
+  "edit-profile-form-last-name": "Cognoms",
+  "edit-profile-form-password": "Contrasenya",
+  "edit-profile-form-update-profile": "Actualitza el perfil",
+  
+  "dashboard-layout-dashboard": "Tauler de dispositius",
+  "dashboard-layout-register-device": "Registre de dispositius",
+
+  "mobile-menu-user-profile": "Perfil d'usuari",
+  "mobile-menu-logout": "Surt",
+
+  "top-navbar-notifications": "Notificacions",
+  "top-navbar-user-profile": "Perfil d'usuari",
+  "top-navbar-logout": "Surt",
+
+  "dashboard-device-status": "Estat dels dispositius",
+  "dashboard-list-of-devices": "Llista dels dispositius connectats disponibles",
+
+  "table-name": "Nom",
+  "table-number": "Número",
+  "table-location": "Localització",
+  "table-updated": "Última actualització",
+  "table-harp-status": "Estat de l'arpa",
+  "table-actions": "Accions",
+  "table-action-view-device": "Veure el dispositiu",
+  "table-action-edit-device": "Editar el dispositiu",
+  "table-action-remove-device": "Eliminar el dispositiu",
+  "table-delete-confirm-1": "Estar segur de voler eliminar de la llista el dispositiu ",
+  "table-delete-confirm-2": " ?",
+  "table-delete-confirm-cancel": "Cancel·la",
+  "table-delete-confirm-delete": "Elimina",
+
+  "register-device-register-device": "Registre de dispositiu",
+  "register-device-add-device-information": "Entra les dades del teu dispositiu",
+  "register-device-already-registered": "Aquest dispositiu ja està registrat!",
+
+  "edit-register-device-name": "Nom",
+  "edit-register-device-number": "Número",
+  "edit-register-device-location": "Localització",
+  "edit-register-device-save": "Guarda",
+  
+  "edit-device-edit-device": "Edició de dispositiu",
+  "edit-device-edit-device-information": "Aquí pots editar les dades del teu dispositiu",
+
+  "view-device-device-number": "Número de dispositiu:",
+  "view-device-information-on-device": "Informació sobre el dispositiu",
+  "view-device-name": "Nom:",
+  "view-device-location": "Localització:",
+  "view-device-no-data-yet": "Encara no hi ha dades. Comprova el teu dispositiu!",
+  "view-device-device-not-sending": "El dispositiu no envia dades. Comprova el teu dispositiu!",
+  "view-device-harp-status": "Estat de l'arpa",
+  "view-device-harp-connected": "Connectada",
+  "view-device-harp-not-connected": "No connectada",
+  "view-device-updated-at": "Última actualització",
+  "view-device-temperature-external": "Temperatura (exterior)",
+  "view-device-temperature-internal": "Temperatura (interior)",
+  "view-device-temperatures": "Temperatures (exterior/interior)"
 }

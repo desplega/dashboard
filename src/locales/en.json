@@ -1,3 +1,74 @@
 {
-  "dashboard-list-of-devices": "List of available connected devices"
+  "auth-layout-beehive-dashboard": "Beehive Dashboard",
+  "auth-layout-made-with": "made with",
+
+  "login-login": "Log in",
+  "login-welcome": "Welcome!",
+  "login-email": "Email...",
+  "login-password": "Password...",
+  "login-lets-go": "Let's Go!",
+
+  "not-found-sorry": "We're sorry, we couldn't find the page you requested.",
+
+  "edit-profile-form-edit-profile": "Edit Profile",
+  "edit-profile-form-complete-profile": "Complete your profile",
+  "edit-profile-form-user-name": "User Name",
+  "edit-profile-form-email-address": "Email Address",
+  "edit-profile-form-first-name": "First Name",
+  "edit-profile-form-last-name": "Last Name",
+  "edit-profile-form-password": "Password",
+  "edit-profile-form-update-profile": "Update Profile",
+  
+  "dashboard-layout-dashboard": "Dashboard",
+  "dashboard-layout-register-device": "Register Device",
+
+  "mobile-menu-user-profile": "User profile",
+  "mobile-menu-logout": "Logout",
+
+  "top-navbar-notifications": "Notifications",
+  "top-navbar-user-profile": "User profile",
+  "top-navbar-logout": "Logout",
+
+  "dashboard-device-status": "Device Status",
+  "dashboard-list-of-devices": "List of available connected devices",
+
+  "table-name": "Name",
+  "table-number": "Number",
+  "table-location": "Location",
+  "table-updated": "Updated",
+  "table-harp-status": "Harp status",
+  "table-actions": "Actions",
+  "table-action-view-device": "View device",
+  "table-action-edit-device": "Edit device",
+  "table-action-remove-device": "Remove device",
+  "table-delete-confirm-1": "Are you sure you want to delete the",
+  "table-delete-confirm-2": "device?",
+  "table-delete-confirm-cancel": "Cancel",
+  "table-delete-confirm-delete": "Delete",
+
+  "register-device-register-device": "Register Device",
+  "register-device-add-device-information": "Add your new device information",
+  "register-device-already-registered": "This device is already registered",
+
+  "edit-register-device-name": "Name",
+  "edit-register-device-number": "Number",
+  "edit-register-device-location": "Location",
+  "edit-register-device-save": "Save",
+  
+  "edit-device-edit-device": "Edit Device",
+  "edit-device-edit-device-information": "Edit your device information",
+
+  "view-device-device-number": "Device number:",
+  "view-device-information-on-device": "Information on the device",
+  "view-device-name": "Name:",
+  "view-device-location": "Location:",
+  "view-device-no-data-yet": "No data yet. Check device!",
+  "view-device-device-not-sending": "Device not sending. Check device!",
+  "view-device-harp-status": "Harp Status",
+  "view-device-harp-connected": "Connected",
+  "view-device-harp-not-connected": "Not connected",
+  "view-device-updated-at": "Updated at",
+  "view-device-temperature-external": "Temperature (external)",
+  "view-device-temperature-internal": "Temperature (internal)",
+  "view-device-temperatures": "Temperatures (external/internal)"
 }
