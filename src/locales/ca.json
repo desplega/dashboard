@@ -8,7 +8,7 @@
   "login-password": "Contrasenya...",
   "login-lets-go": "Som-hi!",
 
-  "not-found-sorry": "Ho setim, no hem trobat la pàgina que ens indiques!",
+  "not-found-sorry": "Ho sentim, no hem trobat la pàgina que ens indiques!",
 
   "edit-profile-form-edit-profile": "Edició del perfil d'usuari",
   "edit-profile-form-complete-profile": "Completa el teu perfil d'usuari",
@@ -68,7 +68,7 @@
   "view-device-harp-connected": "Connectada",
   "view-device-harp-not-connected": "No connectada",
   "view-device-updated-at": "Última actualització",
-  "view-device-temperature-external": "Temperatura (exterior)",
+  "view-device-temperature-external": "Temperatura",
   "view-device-temperature-internal": "Temperatura (interior)",
-  "view-device-temperatures": "Temperatures (exterior/interior)"
+  "view-device-temperatures": "Temperatura"
 }

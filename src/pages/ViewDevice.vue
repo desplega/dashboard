@@ -31,7 +31,7 @@
         </md-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
         <stats-card data-background-color="red">
           <template slot="header">
             <md-icon>border_clear</md-icon>
@@ -55,7 +55,7 @@
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-50">
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>wb_sunny</md-icon>
@@ -73,7 +73,7 @@
         </stats-card>
       </div>
 
-      <div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
+      <!--<div v-if="hasData" class="md-layout-item md-medium-size-100 md-size-33">
         <stats-card data-background-color="purple">
           <template slot="header">
             <md-icon>home</md-icon>
@@ -89,7 +89,7 @@
             </div>
           </template>
         </stats-card>
-      </div>
+      </div>-->
 
       <div v-if="hasData" class="md-layout-item md-size-100">
         <chart-card
@@ -178,7 +178,8 @@ export default {
       temperatureChart: {
         data: {
           labels: [],
-          series: [[], []] // Two temperatures on the same chart
+          //series: [[], []] // Two temperatures on the same chart
+          series: [[]]
         },
         options: {
           lineSmooth: this.$Chartist.Interpolation.cardinal({
@@ -192,7 +193,7 @@ export default {
             offset: 40
           },
           low: -10,
-          high: 40,
+          high: 45,
           showPoint: true,
           height: "300px"
         }
@@ -278,7 +279,7 @@ export default {
           );
         }
         this.temperatureChart.data.series[0][i] = this.chartData[i].data.t0;
-        this.temperatureChart.data.series[1][i] = this.chartData[i].data.t1;
+        //this.temperatureChart.data.series[1][i] = this.chartData[i].data.t1;
       }
     },
     chartUpdated() {
