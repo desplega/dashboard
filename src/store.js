@@ -18,6 +18,7 @@ export default new Vuex.Store({
     auth_success(state, payload) {
       state.status = "success";
       state.token = payload.token;
+      state.refreshToken = payload.refreshToken,
       state.user = payload.user;
     },
     auth_error(state) {
@@ -39,11 +40,13 @@ export default new Vuex.Store({
         })
           .then(resp => {
             const token = resp.data.token;
+            const refreshToken = resp.data['refresh-token'];
             const user = resp.data.user;
             localStorage.setItem(Globals.API_AUTH_TOKEN, token);
-            localStorage.setItem(Globals.AUTH_USER, JSON.stringify(user));
+            localStorage.setItem(Globals.API_REFRESH_TOKEN, refreshToken);
             // Configure default headers for all htpp calls
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+            axios.defaults.headers.common["access-token"] = token;
+            axios.defaults.headers.common["refresh-token"] = refreshToken;
             axios.defaults.headers.common["Content-Type"] = "application/json";
             // Resolve promise
             commit("auth_success", { token, user });
@@ -52,7 +55,7 @@ export default new Vuex.Store({
           .catch(err => {
             commit("auth_error");
             localStorage.removeItem(Globals.API_AUTH_TOKEN);
-            localStorage.removeItem(Globals.AUTH_USER);
+            localStorage.removeItem(Globals.API_REFRESH_TOKEN);
             reject(err);
           });
       });
@@ -67,11 +70,13 @@ export default new Vuex.Store({
         })
           .then(resp => {
             const token = resp.data.token;
+            const refreshToken = resp.data['refresh-token'];
             const user = resp.data.user;
             localStorage.setItem(Globals.API_AUTH_TOKEN, token);
-            localStorage.setItem(Globals.AUTH_USER, JSON.stringify(user));
+            localStorage.setItem(Globals.API_REFRESH_TOKEN, refreshToken);
             // Configure default headers for all http calls
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+            axios.defaults.headers.common["access-token"] = token;
+            axios.defaults.headers.common["refresh-token"] = refreshToken;
             axios.defaults.headers.common["Content-Type"] = "application/json";
             // Resolve promise
             commit("auth_success", { token, user });
@@ -80,6 +85,7 @@ export default new Vuex.Store({
           .catch(err => {
             commit("auth_error", err);
             localStorage.removeItem("token");
+            localStorage.removeItem("refresh-token");
             reject(err);
           });
       });
@@ -88,8 +94,9 @@ export default new Vuex.Store({
       return new Promise(resolve => {
         commit("logout");
         localStorage.removeItem(Globals.API_AUTH_TOKEN);
-        localStorage.removeItem(Globals.AUTH_USER);
-        delete axios.defaults.headers.common["Authorization"];
+        localStorage.removeItem(Globals.API_REFRESH_TOKEN);
+        delete axios.defaults.headers.common["access-token"];
+        delete axios.defaults.headers.common["refresh-token"];
         delete axios.defaults.headers.common["Content-Type"];
         resolve();
       });
@@ -98,35 +105,30 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("auth_request");
         const token = localStorage.getItem(Globals.API_AUTH_TOKEN) || "";
-        // If no token go to Login page
-        if (!token) {
+        const refreshToken = localStorage.getItem(Globals.API_REFRESH_TOKEN) || "";
+        // If no tokens go to Login page
+        if (!token || !refreshToken) {
           commit("logout");
           resolve();
         } else {
-          // If there's a token, confirm it is valid (refresh session)
           // Configure default headers for all htpp calls
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          axios.defaults.headers.common["access-token"] = token;
+          axios.defaults.headers.common["refresh-token"] = refreshToken;
           axios.defaults.headers.common["Content-Type"] = "application/json";
+          // If there are tokens, confirm they are valid (I need to do a call to test the tokens, i.e. /users/me)
           axios({
             url: Globals.BASE_API_URL + "api/v1/users/me",
             method: "GET"
           })
             .then(resp => {
               const user = resp.data;
-              // Repopulate the user object
-              localStorage.setItem(Globals.AUTH_USER, JSON.stringify(user));
-              // Configure default headers for all http calls
-              axios.defaults.headers.common["Authorization"] =
-                "Bearer " + token;
-              axios.defaults.headers.common["Content-Type"] =
-                "application/json";
-              commit("auth_success", { token, user });
+              commit("auth_success", { token, refreshToken, user });
               resolve(resp);
             })
             .catch(err => {
               commit("auth_error");
               localStorage.removeItem(Globals.API_AUTH_TOKEN);
-              localStorage.removeItem(Globals.AUTH_USER);
+              localStorage.removeItem(Globals.API_REFRESH_TOKEN);
               reject(err);
             });
         }
@@ -135,6 +137,7 @@ export default new Vuex.Store({
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status
+    authStatus: state => state.status,
+    token: state => state.token
   }
 });

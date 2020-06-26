@@ -5,7 +5,7 @@ const GlobalConstants = {
       ? "https://api.desplega.com/"
       : "http://localhost:9000/",
   API_AUTH_TOKEN: "API_AUTH_TOKEN",
-  AUTH_USER: "AUTH_USER",
+  API_REFRESH_TOKEN: "API_REFRESH_TOKEN",
   DATA_LIMIT: 30
 };
 

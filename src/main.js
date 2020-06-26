@@ -70,9 +70,12 @@ new Vue({
   data: {
     Chartist: Chartist
   },
-  created: function() {
+  created: function () {
     // Intercept all API calls. In case token expires, redirect to login.
-    Axios.interceptors.response.use(undefined, function(err) {
+    Axios.interceptors.response.use(function(response) {
+      console.log(response.headers);
+      return response;
+    }, function (err) {
       if (err.response.status === 401) {
         // If you ever get an unauthorized, logout the user and redirect to /login
         store.dispatch("logout").then(() => {
