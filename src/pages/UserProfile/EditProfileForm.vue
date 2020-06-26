@@ -39,9 +39,9 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-center">
-            <md-button class="md-raised md-primary" disabled
-              >{{ $t("edit-profile-form-update-profile") }}</md-button
-            >
+            <md-button class="md-raised md-primary" disabled>{{
+              $t("edit-profile-form-update-profile")
+            }}</md-button>
           </div>
         </div>
       </md-card-content>

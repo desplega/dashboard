@@ -6,7 +6,9 @@
           data-background-color="blue"
           @saveDevice="saveDevice($event)"
         >
-          <h4 slot="title" class="title">{{ $t("register-device-register-device") }}</h4>
+          <h4 slot="title" class="title">
+            {{ $t("register-device-register-device") }}
+          </h4>
           <p slot="category" class="category">
             {{ $t("register-device-add-device-information") }}
           </p>

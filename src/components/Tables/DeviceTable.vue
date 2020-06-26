@@ -2,8 +2,12 @@
   <div>
     <md-table v-model="devices" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell :md-label="$t('table-name')">{{ item.info.name }}</md-table-cell>
-        <md-table-cell :md-label="$t('table-number')">{{ item.info.number }}</md-table-cell>
+        <md-table-cell :md-label="$t('table-name')">{{
+          item.info.name
+        }}</md-table-cell>
+        <md-table-cell :md-label="$t('table-number')">{{
+          item.info.number
+        }}</md-table-cell>
         <md-table-cell :md-label="$t('table-location')">
           {{ item.info.location }}
         </md-table-cell>
@@ -27,18 +31,24 @@
             @click="viewDevice(item.info.id)"
           >
             <md-icon>art_track</md-icon>
-            <md-tooltip md-direction="bottom">{{ $t("table-action-view-device") }}</md-tooltip>
+            <md-tooltip md-direction="bottom">{{
+              $t("table-action-view-device")
+            }}</md-tooltip>
           </md-button>
           <md-button
             class="md-just-icon md-simple"
             @click="editDevice(item.info.id)"
           >
             <md-icon>edit</md-icon>
-            <md-tooltip md-direction="bottom">{{ $t("table-action-edit-device") }}</md-tooltip>
+            <md-tooltip md-direction="bottom">{{
+              $t("table-action-edit-device")
+            }}</md-tooltip>
           </md-button>
           <md-button class="md-just-icon md-simple" @click="deleteDevice(item)">
             <md-icon>delete</md-icon>
-            <md-tooltip md-direction="bottom">{{ $t("table-action-remove-device") }}</md-tooltip>
+            <md-tooltip md-direction="bottom">{{
+              $t("table-action-remove-device")
+            }}</md-tooltip>
           </md-button>
         </md-table-cell>
       </md-table-row>
@@ -56,17 +66,19 @@
 
         <template slot="body">
           <p>
-            {{ $t('table-delete-confirm-1')}}
-            {{ this.device.info.number }} {{ $t('table-delete-confirm-2')}}
+            {{ $t("table-delete-confirm-1") }}
+            {{ this.device.info.number }} {{ $t("table-delete-confirm-2") }}
           </p>
         </template>
 
         <template slot="footer">
-          <md-button class="md-simple" @click="alertModalHide"
-            >{{ $t('table-delete-confirm-cancel')}}</md-button
-          >
-          <md-button class="md-success md-simple" @click="confirmDeleteDevice"
-            >{{ $t('table-delete-confirm-delete')}}</md-button
+          <md-button class="md-simple" @click="alertModalHide">{{
+            $t("table-delete-confirm-cancel")
+          }}</md-button>
+          <md-button
+            class="md-success md-simple"
+            @click="confirmDeleteDevice"
+            >{{ $t("table-delete-confirm-delete") }}</md-button
           >
         </template>
       </modal>

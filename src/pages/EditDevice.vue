@@ -9,8 +9,12 @@
             :device="device"
             @saveDevice="saveDevice($event)"
           >
-            <h4 slot="title" class="title">{{ $t("edit-device-edit-device") }}</h4>
-            <p slot="category" class="category">{{ $t("edit-device-edit-device-information") }}</p>
+            <h4 slot="title" class="title">
+              {{ $t("edit-device-edit-device") }}
+            </h4>
+            <p slot="category" class="category">
+              {{ $t("edit-device-edit-device-information") }}
+            </p>
           </edit-register-device-form>
         </div>
       </div>

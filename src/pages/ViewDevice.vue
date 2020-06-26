@@ -4,8 +4,12 @@
       <div class="md-layout-item md-medium-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">{{ $t("view-device-device-number") }} {{ device.number }}</h4>
-            <p class="category">{{ $t("view-device-information-on-device") }}</p>
+            <h4 class="title">
+              {{ $t("view-device-device-number") }} {{ device.number }}
+            </h4>
+            <p class="category">
+              {{ $t("view-device-information-on-device") }}
+            </p>
           </md-card-header>
           <md-card-content>
             <p>
@@ -34,7 +38,13 @@
           </template>
           <template slot="content">
             <p class="category">{{ $t("view-device-harp-status") }}</p>
-            <h3 class="title">{{ harp ? $t("view-device-harp-connected") : $t("view-device-harp-not-connected") }}</h3>
+            <h3 class="title">
+              {{
+                harp
+                  ? $t("view-device-harp-connected")
+                  : $t("view-device-harp-not-connected")
+              }}
+            </h3>
           </template>
           <template slot="footer">
             <div class="stats">
@@ -98,7 +108,9 @@
             </div>
             <h4 class="title">
               {{ $t("view-device-temperatures") }}
-              <small>- {{ $t("view-device-updated-at") }} {{ updatedAt }}</small>
+              <small
+                >- {{ $t("view-device-updated-at") }} {{ updatedAt }}</small
+              >
             </h4>
           </template>
         </chart-card>
